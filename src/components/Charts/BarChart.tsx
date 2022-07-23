@@ -41,7 +41,7 @@ export const options = {
 };
 export default function BarChart ({Data}:Props){
     return (
-        
+        <div/>
     )
 
 }
