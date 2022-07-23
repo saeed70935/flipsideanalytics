@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Flipside,QueryResultSet } from '@flipsidecrypto/sdk';
 import Moment from 'moment'
 const flipside = new Flipside("99e8a56d-0bc7-49ea-9c79-94492d6326f0");
-export interface FlipsideQueryResult  {name:string|null;type:string;value:Array<string|number|boolean|null>} ;
+export interface FlipsideQueryResult  {name:string|null;type:'date'|'number'|'text'|'boolean'|string;value:Array<string|number|boolean|null>} ;
 export function useFlipside (query:string){
     const [QueryResult,setQueryResult] = useState<QueryResultSet>({columns:[],columnTypes:[],error:null,queryId:"",records:[],rows:[],runStats:{startedAt: new Date(Date.now()),endedAt:new Date(Date.now()),elapsedSeconds:0,recordCount:0},status:"pending"});
     const [FineQueryResult,setFineQueryResult] = useState<FlipsideQueryResult[]>([]);
