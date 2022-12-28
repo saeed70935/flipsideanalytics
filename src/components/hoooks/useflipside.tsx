@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Flipside,QueryResultSet } from '@flipsidecrypto/sdk';
+import { Flipside, Query, QueryResultSet } from "../../lib/@flipsidecrypto/sdk/src";
 import Moment from 'moment'
 const flipside = new Flipside("99e8a56d-0bc7-49ea-9c79-94492d6326f0");
 export interface FlipsideQueryResult  {name:string|null;type:'date'|'number'|'text'|'boolean'|string;value:Array<string|number|boolean|null>} ;
