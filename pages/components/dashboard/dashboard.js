@@ -335,7 +335,7 @@ const Dashboard = () => {
                 <Card.Header className="border-bottom-0">
                   <div>
                     <label className="main-content-label mb-2">
-                      OpTimism Chain Performance
+                      Optimism Chain Performance
                     </label>
                     <span className="d-block tx-12 mb-0 text-muted">
                       The follwing chart shows Daily TPS and Failure rate transactions in the {CurrentTimeSpan}
@@ -354,101 +354,7 @@ const Dashboard = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card top-inquiries">
-                <Card.Header className="border-bottom-0 pb-0">
-                  <div>
-                    <div className="d-flex">
-                      <label className="main-content-label my-auto pt-2">
-                        Top Inquiries
-                      </label>
-                    </div>
-                    <span className="d-block tx-12 mt-2 mb-0 text-muted">
-                      project work involves a group of students investigating .
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body>
-                  <Row className="mt-1">
-                    <Col sm={5} className="col-4">
-                      <span>Brand identity</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className="progress ht-6 my-auto"
-                        now={90}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-success fe fe-arrow-up"></i>
-                          <b>24.75%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className="">UI & UX design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={80}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-danger fe fe-arrow-down"></i>
-                          <b>12.34%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className=" mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className="">Product design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={50}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-success  fe fe-arrow-up"></i>
-                          <b>13.75%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-
-                  <Row className=" mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className=""> React design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={50}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-danger  fe fe-arrow-down"></i>
-                          <b>20.41%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
+        
             {/* <!-- col end --> */}
             <Col lg={12}>
               <Card className="custom-card mg-b-20">

@@ -8,6 +8,7 @@ import { Card, Col, Row, ProgressBar,  Container, Table,Dropdown } from 'react-b
 import CircularProgress from "@mui/material/CircularProgress";
 import dynamic from 'next/dynamic';
 import OPPriceComp from '../../src/components/OPCharts/OPpriceComp.tsx'
+import DistributionProtocols from '../../src/components/OPCharts/DistributionProtocols.tsx'
 import {Ethereumexchange,ethereumexchange} from '../../shared/data/crypto-currencies/currencyexchange'
 // const Dropdown = dynamic(import('react-bootstrap/Dropdown').then(mod => mod.Dropdown), { ssr: false })
 //@ts-ignore
@@ -354,206 +355,6 @@ const Dashboard = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card top-inquiries">
-                <Card.Header className="border-bottom-0 pb-0">
-                  <div>
-                    <div className="d-flex">
-                      <label className="main-content-label my-auto pt-2">
-                        Top Inquiries
-                      </label>
-                    </div>
-                    <span className="d-block tx-12 mt-2 mb-0 text-muted">
-                      project work involves a group of students investigating .
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body>
-                  <Row className="mt-1">
-                    <Col sm={5} className="col-4">
-                      <span>Brand identity</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className="progress ht-6 my-auto"
-                        now={90}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-success fe fe-arrow-up"></i>
-                          <b>24.75%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className="mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className="">UI & UX design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={80}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-danger fe fe-arrow-down"></i>
-                          <b>12.34%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className=" mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className="">Product design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={50}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-success  fe fe-arrow-up"></i>
-                          <b>13.75%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-
-                  <Row className=" mt-3">
-                    <Col sm={5} className="col-4">
-                      <span className=""> React design</span>
-                    </Col>
-                    <Col sm={4} className="col-4 my-auto">
-                      <ProgressBar
-                        className=" ht-6 my-auto"
-                        now={50}
-                      ></ProgressBar>
-                    </Col>
-                    <Col sm={3} className="col-4">
-                      <div className="d-flex">
-                        <span className="tx-13">
-                          <i className="text-danger  fe fe-arrow-down"></i>
-                          <b>20.41%</b>
-                        </span>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* <!-- col end --> */}
-            <Col lg={12}>
-              <Card className="custom-card mg-b-20">
-                <Card.Body>
-                  <Card.Header className="card-header border-bottom-0 pt-0 ps-0 pe-0 d-flex">
-                    <div>
-                      <label className="main-content-label mb-2">Tasks</label>
-                      <span className="d-block tx-12 mb-3 text-muted">
-                        A task is accomplished by a set deadline, and must
-                        contribute toward work-related objectives.
-                      </span>
-                    </div>
-                    <Dropdown className="ms-auto">
-                      <DropdownToggle variant="default" className="option-dots" >
-                        <i className="fe fe-more-vertical"></i>
-                      </DropdownToggle>
-                      <DropdownMenu style={{ margin: "0px" }}>
-                        <DropdownItem href="#">Task</DropdownItem>
-                        <DropdownItem href="#">Team</DropdownItem>
-                        <DropdownItem href="#">Status</DropdownItem>
-                        <DropdownDivider />
-                        <DropdownItem href="#">
-                          <i className="fa fa-cog me-2"></i> Settings
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </Card.Header>
-                  <div className=" tasks">
-                    <Table responsive hover
-                      className="card-table table-vcenter text-nowrap mb-0 border hover"  >
-                      <thead>
-                        <tr>
-                          <th className="wd-lg-10p">Task</th>
-                          <th className="wd-lg-20p">Team</th>
-                          <th className="wd-lg-20p text-center">Open task</th>
-                          <th className="wd-lg-20p">Prority</th>
-                          <th className="wd-lg-20p">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {TASKS.map((items, index) => (
-                          <tr key={index} data-index={index}>
-                            <td className="font-weight-semibold">
-                              <div className="d-flex">
-                                <label className="ckbox my-auto me-4">
-                                  <input readOnly="" type="checkbox" />
-                                  <span></span>
-                                </label>
-                                <span className="mt-1">{items.Task}</span>
-                              </div>
-                            </td>
-                            <td className="text-nowrap">
-                              <div className="demo-avatar-group my-auto float-end">
-                                <div className="main-img-user avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember1}
-                                  />
-                                </div>
-                                <div className="main-img-user avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember2}
-                                  />
-                                </div>
-                                <div className="main-img-user avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember3}
-                                  />
-                                </div>
-                                <div className="main-img-user avatar-sm">
-                                  <img
-                                    alt="avatar"
-                                    className="rounded-circle"
-                                    src={items.TeamMember4}
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                            <td className="text-center">
-                              37<i className=""></i>
-                            </td>
-                            <td className={`text-${items.Profittext}`}>
-                              {items.TaskProfit}
-                            </td>
-                            <td>
-                              <span
-                                className={`badge bg-pill bg-${items.Statustext}-light`}
-                              >
-                                {items.Status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* <!-- col end --> */}
           </Row>
 							{/* <!-- Row end --> */}
 						</div>
@@ -884,23 +685,24 @@ const Dashboard = () => {
             <Card.Body>
               <div className="d-flex">
                 <label className="main-content-label my-auto">
-                  Website Design
+                 Transactions Label Type
                 </label>
-                <div className="ms-auto  d-flex">
+                {/* <div className="ms-auto  d-flex">
                   <div className="me-3 d-flex text-muted tx-13">Running</div>
-                </div>
+                </div> */}
               </div>
               <div className="mt-2">
                 <div>
-                  <span className="tx-15 text-muted">
-                    Task completed : 7/10
+                  <span className="tx-11 text-muted">
+                    The Distribution of Transactions based on Label Type in the {CurrentTimeSpan}
                   </span>
                 </div>
-                <div className="container mt-2 mb-2">
-                  <Bar options={dashboardmain.Webdesgining} data={dashboardmain.webdesigning} className="line" />
+                <div className="container mt-2 mb-2 ">
+                <DistributionProtocols CurrentTimeSpan={CurrentTimeSpan} />
+                  {/* <Bar options={dashboardmain.Webdesgining} data={dashboardmain.webdesigning} className="line" /> */}
                 </div>
               </div>
-              <Row className="row">
+              {/* <Row className="row">
                 <Col className="col">
                   <div className="mt-4">
                     <div className="d-flex mb-2">
@@ -926,7 +728,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
             </Card.Body>
           </Card>
 						</div>

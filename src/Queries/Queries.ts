@@ -117,6 +117,17 @@ select date ,
   TPS,
  Failure_Rate
 from TPS_
-order by date`
+order by date`,
+TransactionsType :`
+select 
+ LABEL_TYPE ,
+  count(tx_hash) tx_count
+  from Optimism.core.fact_transactions t join  Optimism.core.dim_labels l 
+on  t.to_address = l.address
+  where  status <> 'FAIL'
+  and block_timestamp::date >= CURRENT_DATE - ${TimeSpan}
+  
+group by 1 order by tx_count desc limit 5
+`
  },
 }
