@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dropdown, Container, Form, Nav, Navbar, InputGroup, } from "react-bootstrap";
 import Link  from "next/link";
 import {MENUITEMS} from "../sidebar/nav"
@@ -34,7 +34,10 @@ function Header() {
     document.querySelector(".sidebar-right").classList.toggle("sidebar-open");
   };
 //  headerToggleButton
-
+useEffect(()=>{
+  document.querySelector("body").classList.add("dark-theme");
+  // document.querySelector("#myonoffswitch2").checked = true
+},[])
   const headerToggleButton = () => {
     let body = document.querySelector("body")
     let innerWidth = window.innerWidth
