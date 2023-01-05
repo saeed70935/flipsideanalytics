@@ -343,13 +343,14 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </Card.Header>
-                <Card.Body className="ps-12">
+                <Card.Body className="ps-12  ">
                   <div>
                     <Container>
                       <div className="chart-dropshadow2 ht-300">
                       <PerformanceOverTime CurrentTimeSpan={CurrentTimeSpan}  options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100"/>
                         {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
                       </div>
+                      <div className='pb-2'></div>
                     </Container>
                   </div>
                 </Card.Body>
@@ -685,7 +686,7 @@ const Dashboard = () => {
             <Card.Body>
               <div className="d-flex">
                 <label className="main-content-label my-auto">
-                 Transactions Label Type
+                 Transaction Label Types
                 </label>
                 {/* <div className="ms-auto  d-flex">
                   <div className="me-3 d-flex text-muted tx-13">Running</div>
