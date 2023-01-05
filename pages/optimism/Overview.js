@@ -55,9 +55,8 @@ import NumTransacrionsonWeekDays from '../../src/components/OPCharts/NumTransacr
 import PerformanceOverTime from '../../src/components/OPCharts/PerformanceOverTime';
 
 const ReactApexChart = dynamic(()=>import('react-apexcharts'), { ssr: false })
-// type DropDownTimeSpanData = "Last 30 days" | 'Last 3 months' | 'Last 6 months' | 'Last one year';
 const Dashboard = () => {
-  const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 30 days");
+  const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
   const [TotalTransations,setTotalTransations] = useState(0)
   const [TotalActiveUsers,setTotalActiveUsers] = useState(0)
   const [TOTAL_USD_FEE,setTOTAL_USD_FEE] = useState(0)

@@ -54,7 +54,6 @@ import NumTransacrionsonWeekDays from '../../../src/components/OPCharts/NumTrans
 import PerformanceOverTime from '../../../src/components/OPCharts/PerformanceOverTime';
 
 const ReactApexChart = dynamic(()=>import('react-apexcharts'), { ssr: false })
-// type DropDownTimeSpanData = "Last 30 days" | 'Last 3 months' | 'Last 6 months' | 'Last one year';
 const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 30 days");
   const [TotalTransations,setTotalTransations] = useState(0)

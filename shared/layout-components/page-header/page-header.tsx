@@ -8,7 +8,7 @@ interface Props {
   CurrentTimeSpan: TimeSpanDataType
 }
 
-const DropDownTimeData: TimeSpanDataType[] = ["Last 30 days", 'Last 3 months', 'Last 6 months', 'Last one year']
+const DropDownTimeData: TimeSpanDataType[] = ["Last 7 days","Last 30 days", 'Last 3 months', 'Last 6 months', 'Last one year']
 interface DropDownTimeItemProps{
   onSelectTimeSpan: (SelectedTimespan: TimeSpanDataType)=>void;
 }

@@ -4,6 +4,12 @@ export function useQueryWithTimeSpan(Query: string, CurrentTimeSpan: TimeSpanDat
     const [ModifiedQuery, setModifiedQuery] = useState<string>(Query)
     useEffect(() => { 
         switch (CurrentTimeSpan){
+            case "Last 7 days":
+                {
+                    let temp = Query.replaceAll(TimeSpan, `7`);
+                    setModifiedQuery(temp);
+                    break;
+                }
             case "Last 30 days":
             {
                 let temp = Query.replaceAll(TimeSpan,`30`);
