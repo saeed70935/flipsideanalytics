@@ -38,7 +38,7 @@ import user11 from "../../public/assets/img/users/11.jpg";
 import user12 from "../../public/assets/img/users/12.jpg";
 
 
-import work3 from "../../public/assets/img/pngs/work3.PNG";
+import work3 from "../../public/assets/img/pngs/work3.png";
 import work from "../../public/assets/img/pngs/work.png";
 
 import projectlogo from "../../public/assets/img/media/project-logo.png"
