@@ -28,7 +28,7 @@ const nextConfig = withTM({
     return [
       {
         source: '/',
-        destination: '/optimism/overview/',
+        destination: '/optimism/Overview/',
         permanent: true
       }
     ]
