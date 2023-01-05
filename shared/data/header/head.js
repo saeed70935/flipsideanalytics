@@ -13,10 +13,11 @@ import users3 from "../../../public/assets/img/users/3.jpg"
 import users5 from "../../../public/assets/img/users/5.jpg"
 
 const HeadDropDown = () => {
- useEffect(()=>{
-  document.querySelector("body").classList.add("dark-theme");
-  // document.querySelector("#myonoffswitch2").checked = true
- },[])
+//  useEffect(()=>{
+//   document.querySelector("body").classList.remove("dark-theme");
+//   document.querySelector("body")?.classList.add("light-theme");
+//   // document.querySelector("#myonoffswitch2").checked = true
+//  },[])
     function Fullscreen() {
         if (
           (document.fullScreenElement && document.fullScreenElement === null) ||

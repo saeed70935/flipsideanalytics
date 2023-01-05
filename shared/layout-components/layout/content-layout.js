@@ -9,7 +9,8 @@ import TabToTop from "../tab-to-top/tab-to-top";
 import { useRouter } from "next/router";
 import Header from "../header/header";
 const Switcher = dynamic(() => import("../switcher/switcher"), { ssr: false });
-const Sidebar = dynamic(() => import("../sidebar/sidebar"), { ssr: false });
+const Sidebar = dynamic(() => import("../sidebar/sidebarOptimism"), { ssr: false });
+
 import Head from "next/head";
 
 const Contentlayout = ({ children }) => {

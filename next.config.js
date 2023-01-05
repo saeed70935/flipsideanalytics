@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ **/
 const isProd = process.env.NODE_ENV === 'production'
 const withTM = require("next-transpile-modules")([
   "@fullcalendar/common",
@@ -7,14 +11,13 @@ const withTM = require("next-transpile-modules")([
   "@fullcalendar/daygrid",
   "@fullcalendar/interaction",
   "@fullcalendar/react",
-  "@fullcalendar/timegrid",
-  "@flipsidecrypto/sdk"
+  "@fullcalendar/timegrid"
 ]);
 const nextConfig = withTM({
-  reactStrictMode: true,
+  reactStrictMode: false,
   trailingSlash: true,
   swcMinify: true,
-  basePath: isProd ? '/spruha/preview' : undefined,
+  // basePath: isProd ? '/spruha/preview' : undefined,
   // basePath: '/components/dashboard/dashboard/',
   // assetPrefix : isProd ? 'https://nextjs.spruko.com/spruha/preview/' : undefined,
   images: {
@@ -25,11 +28,20 @@ const nextConfig = withTM({
     return [
       {
         source: '/',
-        destination: '/components/dashboard/dashboard',
+        destination: '/optimism/overview/',
         permanent: true
       }
     ]
   },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+ 
 })
 
 module.exports = nextConfig
+   

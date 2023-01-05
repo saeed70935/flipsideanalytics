@@ -187,7 +187,7 @@ const FormLayouts = () => {
                     </div>
                     <div className="form-group mg-b-20">
                       <label className="ckbox">
-                        <input defaultdefaultchecked="true" type="checkbox" />
+                        <input checked="true" type="checkbox" />
                         <span className="tx-13">
                           I agree terms and conditions
                         </span>

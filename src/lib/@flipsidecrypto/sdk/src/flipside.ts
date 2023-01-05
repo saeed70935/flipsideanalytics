@@ -1,11 +1,11 @@
 import { API } from "./api";
 import { QueryIntegration } from "./integrations";
-import { version } from '../package.json';
-
+// import { version } from '../package.json';
+import { QueryResultSet } from "./types";
 
 const API_BASE_URL = "https://api.flipsidecrypto.com";
 const SDK_PACKAGE = "js";
-const SDK_VERSION = version;
+const SDK_VERSION = "1.1.1";
 
 export class Flipside {
   query: QueryIntegration;
@@ -21,5 +21,5 @@ export class Flipside {
 
 export * from "./types";
 export * from "./errors";
-import { QueryResultSet } from "./types";
-export { QueryResultSet };
+
+export { type QueryResultSet };

@@ -55,7 +55,7 @@ const Home = ()=>{
         <link rel="icon" href={favicon.src} />
       </Head>
       {/* <div className="page main-signin-wrapper" */}
-    >
+    
       <Row className="signpages text-center" >
         <Col md={12}>
           <Card>
@@ -162,7 +162,7 @@ const Home = ()=>{
         </Col>
       </Row>
     </div>
-    </div>
+    
   )
 }
 Home.layout = "Authenticationlayout"

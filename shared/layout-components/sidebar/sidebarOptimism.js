@@ -3,7 +3,7 @@ import { MENUITEMS } from "./navOptimism";
 import Link from "next/link";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useRouter } from "next/router";
-import { horizontalmenusticky } from "../../../shared/data/switcherdata/switcherdata";
+import { horizontalmenusticky } from "../../data/switcherdata/switcherdata";
 import dynamic from "next/dynamic";
 // const horizontalmenusticky = dynamic(()=>import('../../../shared/data/switcherdata/switcherdata'), { ssr: false })
 let history = [];
@@ -11,6 +11,7 @@ let history = [];
 //Images
 import logolight from "../../../public//assets/img/brand/logo-light.png"
 import iconlight from "../../../public//assets/img/brand/icon-light.png"
+// import iconlight from "../../../public//assets/img/optimism.svg"
 import logo from "../../../public//assets/img/brand/logo.png"
 import icon from "../../../public//assets/img/brand/icon.png"
 

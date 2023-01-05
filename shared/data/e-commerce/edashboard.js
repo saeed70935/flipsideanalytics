@@ -62,7 +62,7 @@ export const dashboard1 = {
     ],
   };
 export const radialbarchart = {
-    series: [83],
+    series: [70],
     options: {
       chart: {
         height: 256,

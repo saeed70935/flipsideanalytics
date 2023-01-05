@@ -91,7 +91,7 @@ const Invoice = () => {
                     <td className="tx-right">$40.00</td>
                   </tr>
                   <tr>
-                    <td className="valign-middle" colSpan="2" rowlspan="4">
+                    <td className="valign-middle" colSpan="2" span="4">
                       <div className="invoice-notes">
                         <label className="main-content-label tx-13">
                           Notes

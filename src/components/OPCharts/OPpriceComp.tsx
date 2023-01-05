@@ -2,14 +2,19 @@
 import { ChartData, ChartOptions } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Bar, Line } from "react-chartjs-2";
-import { useFlipside } from '../hoooks/useflipside';
+import { Queries } from '../../Queries/Queries';
+import { TimeSpanDataType } from '../../Queries/types';
+import { useChartData } from '../hoooks/useChartData';
+import {   FlipsideResponse,FlipsideQueryResult, useFlipside } from '../hoooks/useflipside';
+import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
+import { SpinnerLoader } from '../Spinners/SpinnerLoader';
  const OPpriceQuery = `
   select HOUR::date daily,
 avg(PRICE) price 
 from optimism.core.fact_hourly_token_prices
   where SYMBOL = 'OP' 
   and HOUR::date >= CURRENT_DATE -30
-group by 1 
+group by 1 order by daily
 `
 const linechart  = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Aug", "Sep", "Oct"],
@@ -40,24 +45,46 @@ const linechart  = {
     //   },
     ],
   };
+  const VerticalSettings =[{
+    borderWidth: 3,
+    backgroundColor: "transparent",
+    borderColor: "#6259ca",
+    pointBackgroundColor: "ffffff",
+    pointRadius: 0,
+    // type: "line",
+    tension: 0.4,
+  },
+  {
+    borderWidth: 3,
+    backgroundColor: "transparent",
+    borderColor: "#6259ca",
+    pointBackgroundColor: "ffffff",
+    pointRadius: 0,
+    // type: "line",
+    tension: 0.4,
+  }
+
+]
   interface Props {
     className: string,
     options:ChartOptions,
-    height:string
+    height:string;
+    CurrentTimeSpan :TimeSpanDataType
   }
-export default function OPpriceComp ({className,options,height}:Props){
-   const OPPrice =  useFlipside(OPpriceQuery);
-    const [labels, setlabels] = useState<Array<string | number | boolean | null>>([])
-    // const [datasets, setdatasets] = useState<Array<>>
-    useEffect(() => { 
-        if(OPPrice.length >0)
-        OPPrice[0].name
-    }, [OPPrice])
-   console.log("OPPrice",OPPrice)
-   
+export default function OPpriceComp({ className, options, height, CurrentTimeSpan }:Props){
+  const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OPPrice, CurrentTimeSpan)
+  const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+  const ChartData = useChartData(0, Result.QueryResult, VerticalSettings)
+
     return(
        <>
-        <Line  height={height} options={options}  className={className} data={{labels:linechart.labels,datasets:linechart.datasets}}></Line>
+        {Result.Loading ? <SpinnerLoader height={height} className={className} /> :
+        <Line height={height} 
+        //@ts-ignore
+        options={options} className={className} data={{ labels: ChartData.horizontal, 
+          //@ts-ignore
+          datasets: ChartData.vertical }}></Line>
+       }
         </>
       
     )

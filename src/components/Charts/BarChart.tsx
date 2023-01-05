@@ -58,7 +58,7 @@ interface BarchartData {
 export default function BarChart ({Data,Horizontal,Vertical}:Props){
  const [BarchartData,setBarchartData] = useState<BarchartData>({labels:[],datasets:[],})
   useEffect(()=>{
-    if(Data !=[]){
+    if(Data && Data.length === 0){
       let tempData :BarchartData = {datasets:[],labels:[]}
       Data.map((item)=>{
         if(item.name ===Horizontal){
@@ -68,10 +68,9 @@ export default function BarChart ({Data,Horizontal,Vertical}:Props){
             tempData.datasets.push({data:item.value,backgroundColor:'rgb(255, 99, 132)',label:item.name})
         }
       })
-      console.log("wdplw",tempData)
       setBarchartData(tempData)
     }
-  },[Data])
+  }, [Data, Horizontal, Vertical])
     return (
       // <div style={{width:1000,height:1000}}>
        <Bar options={options} data={BarchartData} />

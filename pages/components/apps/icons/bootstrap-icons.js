@@ -30,7 +30,7 @@ const BootstrapIcons = () => {
                   .
                 </p>
               </Col>
-              <div sm={12} lg={12}>
+              <div >
                 <div className="icons-list-wrap">
                   <ul className="icons-list">
                     <li className="icons-list-item">

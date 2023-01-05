@@ -3863,7 +3863,7 @@ C431.3,1830.2,378.4,1777.3,378.4,1712z" />
             </div>
             <div className="pos-relative">
               <div className="shape overflow-hidden bottom-footer-shape">
-                <svg viewBox="0 0 2880 48" fill="none" xmsns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 2880 48" fill="none" >
                   <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="#0e0e23"></path>
                 </svg>
               </div>

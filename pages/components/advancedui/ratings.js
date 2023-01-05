@@ -147,12 +147,7 @@ const [value, setValue] = React.useState(2);
             <div className="box box-large box-example-horizontal">
               <div className="box-body text-center">
 			  <div
-      sx={{
-        width: 200,
-        display: "flex",
-        alignItems: "center",
-        fontSize: "10px",
-      }}
+      
     >
       <Rating
         name="hover-feedback"

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import PageHeader from "../../../shared/layout-components/page-header/page-header";
+import PageHeader from "../../shared/layout-components/page-header/page-header";
 import { Bar, Line, PolarArea } from "react-chartjs-2";
-import * as dashboardmain from  "../../../shared/data/chart/dashboardmain"
+import * as dashboardmain from  "../../shared/data/chart/dashboardmain"
 import Chart from 'chart.js/auto';
-import Seo from '../../../shared/layout-components/seo/seo';
+import Seo from '../../shared/layout-components/seo/seo'
 import { Card, Col, Row, ProgressBar,  Container, Table,Dropdown } from 'react-bootstrap';
 import CircularProgress from "@mui/material/CircularProgress";
 import dynamic from 'next/dynamic';
-import OPPriceComp from '../../../src/components/OPCharts/OPpriceComp.tsx'
-import {Ethereumexchange,ethereumexchange} from '../../../shared/data/crypto-currencies/currencyexchange'
+import OPPriceComp from '../../src/components/OPCharts/OPpriceComp.tsx'
+import {Ethereumexchange,ethereumexchange} from '../../shared/data/crypto-currencies/currencyexchange'
 // const Dropdown = dynamic(import('react-bootstrap/Dropdown').then(mod => mod.Dropdown), { ssr: false })
 //@ts-ignore
 const DropdownToggle = dynamic(import('react-bootstrap/Dropdown').then(mod => mod.DropdownToggle), { ssr: false })
@@ -25,33 +25,33 @@ const DropdownDivider = dynamic(import('react-bootstrap/Dropdown').then(mod => m
 
 
 //Images
-import user1 from "../../../public/assets/img/users/1.jpg";
-import user2 from "../../../public/assets/img/users/2.jpg";
-import user3 from "../../../public/assets/img/users/3.jpg";
-import user4 from "../../../public/assets/img/users/4.jpg";
-import user5 from "../../../public/assets/img/users/5.jpg";
-import user6 from "../../../public/assets/img/users/6.jpg";
-import user7 from "../../../public/assets/img/users/7.jpg";
-import user8 from "../../../public/assets/img/users/8.jpg";
-import user10 from "../../../public/assets/img/users/10.jpg";
-import user11 from "../../../public/assets/img/users/11.jpg";
-import user12 from "../../../public/assets/img/users/12.jpg";
+import user1 from "../../public/assets/img/users/1.jpg";
+import user2 from "../../public/assets/img/users/2.jpg";
+import user3 from "../../public/assets/img/users/3.jpg";
+import user4 from "../../public/assets/img/users/4.jpg";
+import user5 from "../../public/assets/img/users/5.jpg";
+import user6 from "../../public/assets/img/users/6.jpg";
+import user7 from "../../public/assets/img/users/7.jpg";
+import user8 from "../../public/assets/img/users/8.jpg";
+import user10 from "../../public/assets/img/users/10.jpg";
+import user11 from "../../public/assets/img/users/11.jpg";
+import user12 from "../../public/assets/img/users/12.jpg";
 
 
-import work3 from "../../../public/assets/img/pngs/work3.PNG";
-import work from "../../../public/assets/img/pngs/work.png";
+import work3 from "../../public/assets/img/pngs/work3.PNG";
+import work from "../../public/assets/img/pngs/work.png";
 
-import projectlogo from "../../../public/assets/img/media/project-logo.png"
-import { useSingleNumber } from '../../../src/components/hoooks/useSingleNumber';
-import { Queries } from '../../../src/Queries/Queries';
-import { convertToInternationalCurrencySystem } from '../../../src/lib/ConvertToInternationaCurrency/convertToInternationalCurrencySystem';
-import { SpinnerLoader } from '../../../src/components/Spinners/SpinnerLoader';
-import UsersDistributionByNumTransactions from '../../../src/components/OPCharts/PolarUsersDistribution';
-import { TotalSuccessRateTransactions } from '../../../src/components/OPCharts/TotalSuccessRateTransactions';
-import DailyNumTransactionsAndActiveUsers from '../../../src/components/OPCharts/DailyNumTransactions';
-import ActiveUsersOnWeekdays from '../../../src/components/OPCharts/ActiveUsersonWeekDays';
-import NumTransacrionsonWeekDays from '../../../src/components/OPCharts/NumTransacrionsonWeekDays';
-import PerformanceOverTime from '../../../src/components/OPCharts/PerformanceOverTime';
+import projectlogo from "../../public/assets/img/media/project-logo.png"
+import { useSingleNumber } from '../../src/components/hoooks/useSingleNumber';
+import { Queries } from '../../src/Queries/Queries';
+import { convertToInternationalCurrencySystem } from '../../src/lib/ConvertToInternationaCurrency/convertToInternationalCurrencySystem';
+import { SpinnerLoader } from '../../src/components/Spinners/SpinnerLoader';
+import UsersDistributionByNumTransactions from '../../src/components/OPCharts/PolarUsersDistribution';
+import { TotalSuccessRateTransactions } from '../../src/components/OPCharts/TotalSuccessRateTransactions';
+import DailyNumTransactionsAndActiveUsers from '../../src/components/OPCharts/DailyNumTransactions';
+import ActiveUsersOnWeekdays from '../../src/components/OPCharts/ActiveUsersonWeekDays';
+import NumTransacrionsonWeekDays from '../../src/components/OPCharts/NumTransacrionsonWeekDays';
+import PerformanceOverTime from '../../src/components/OPCharts/PerformanceOverTime';
 
 const ReactApexChart = dynamic(()=>import('react-apexcharts'), { ssr: false })
 // type DropDownTimeSpanData = "Last 30 days" | 'Last 3 months' | 'Last 6 months' | 'Last one year';

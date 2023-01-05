@@ -3,12 +3,12 @@ export const MENUITEMS = [
     menutitle: "DASHBOARD",
     Items: [
       {
-        path: "/components/dashboard/dashboard",
+        path: "/optimism/Overview",
         icon: "ti-home",
         type: "link",
         active: false,
         selected: false,
-        title: "Dashboard",
+        title: "Overview",
       },
       {
         title: "CryptoCurrencies",
@@ -135,19 +135,19 @@ export const MENUITEMS = [
       },
     ],
   },
-  {
-    menutitle: "LANDINGPAGE",
-    Items: [
-      {
-        path: "/components/landingpage/landingpage",
-        icon: "ti-layout",
-        type: "link",
-        active: false,
-        selected: false,
-        title: "Landingpage",
-      },
-    ],
-  },
+  // {
+  //   menutitle: "LANDINGPAGE",
+  //   Items: [
+  //     {
+  //       path: "/components/landingpage/landingpage",
+  //       icon: "ti-layout",
+  //       type: "link",
+  //       active: false,
+  //       selected: false,
+  //       title: "Landingpage",
+  //     },
+  //   ],
+  // },
   {
     menutitle: "APPLICATIONS",
     Items: [

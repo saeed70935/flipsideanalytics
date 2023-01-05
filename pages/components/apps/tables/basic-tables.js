@@ -29,7 +29,7 @@ const BasicTables = () => {
               </p>
             </div>
 
-            <div esponsive="true" className="table-responsive border border-bottom-0">
+            <div  className="table-responsive border border-bottom-0">
               <Table className="table text-nowrap text-md-nowrap mg-b-0">
                 <thead>
                   <tr>
@@ -68,7 +68,7 @@ const BasicTables = () => {
                 Add zebra-striping to any table row.
               </p>
             </div>
-            <div className="table-responsive border border-bottom-0" responsive="true">
+            <div className="table-responsive border border-bottom-0" >
               <Table className="table  text-nowrap text-md-nowrap table-striped mg-b-0">
                 <thead>
                   <tr>
@@ -107,7 +107,7 @@ const BasicTables = () => {
                 Add borders on all sides of the table and cells.
               </p>
             </div>
-            <div className="table-responsive" responsive="true">
+            <div className="table-responsive" >
               <Table className="table text-nowrap text-md-nowrap table-bordered mg-b-0">
                 <thead>
                   <tr>
@@ -146,7 +146,7 @@ const BasicTables = () => {
                 To enable a hover state on table rows.
               </p>
             </div>
-            <div className="table-responsive border border-bottom-0" responsive="true">
+            <div className="table-responsive border border-bottom-0" >
               <table className="table text-nowrap text-md-nowrap table-hover mg-b-0">
                 <thead>
                   <tr>

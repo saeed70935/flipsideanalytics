@@ -40,7 +40,7 @@ const Profile = () => {
       className="bg-gray-100"
     >
       <Row className="square">
-        <div lg={12} md={12}>
+        <div >
           <Card className="custom-card">
             <Card.Body>
               <div className="panel profile-cover">
@@ -107,7 +107,7 @@ const Profile = () => {
           <div className="card custom-card main-content-body-profile">
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                <div lg={12} md={12}>
+                <div >
                   <Card className="custom-card main-content-body-profile">
                     <div className="tab-content">
                       <div className="main-content-body tab-pane p-sm-4 p-0 border-top-0 active">
