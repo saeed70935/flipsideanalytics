@@ -26,6 +26,7 @@ import { useSingleNumber } from "../../src/components/hoooks/useSingleNumber";
 import { Queries } from "../../src/Queries/Queries";
 import { convertToInternationalCurrencySystem } from "../../src/lib/ConvertToInternationaCurrency/convertToInternationalCurrencySystem";
 import { SpinnerLoader } from "../../src/components/Spinners/SpinnerLoader";
+import TotalSwapsBasedOnDExComp from "../../src/components/OPCharts/Dex/TotalSwapsBasedOnDex";
 
 
 const TRADINGACTIVITIES = [
@@ -185,72 +186,7 @@ const Dashboard = () => {
           {/* </div> */}
         </div>
         <div className="row row-sm">
-         <Col
-            md={4}
-            sm={4}
-            lg={4}
-            xl={4}
-            xxl={4}
-            className="col-md-4 col-sm-12 col-lg-4 col-xl-4 col-xxl-4"
-          >
-            <Card className="custom-card overflow-hidden">
-              <Card.Header className="card-header border-bottom-0">
-                <label className="main-content-label my-auto pt-2 mb-1">
-                  Assets Allocation
-                </label>
-                <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                  Asset allocation involves dividing an investment portfolio
-                  among different asset categories
-                </span>
-              </Card.Header>
-              <Card.Body className="card-body crypto-wallet mx-auto"></Card.Body>
-              </Card>
-          </Col>
-
-          <Col
-            md={4}
-            sm={4}
-            lg={4}
-            xl={4}
-            xxl={4}
-            className="col-md-4 col-sm-12 col-lg-4 col-xl-4 col-xxl-4"
-          >
-            <Card className="custom-card overflow-hidden">
-              <Card.Header className="card-header border-bottom-0">
-                <label className="main-content-label my-auto pt-2 mb-1">
-                  Assets Allocation
-                </label>
-                <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                  Asset allocation involves dividing an investment portfolio
-                  among different asset categories
-                </span>
-              </Card.Header>
-              <Card.Body className="card-body crypto-wallet mx-auto"></Card.Body>
-              </Card>
-          </Col>
-
-
-          <Col
-            md={4}
-            sm={4}
-            lg={4}
-            xl={4}
-            xxl={4}
-            className="col-md-4 col-sm-12 col-lg-4 col-xl-4 col-xxl-4"
-          >
-            <Card className="custom-card overflow-hidden">
-              <Card.Header className="card-header border-bottom-0">
-                <label className="main-content-label my-auto pt-2 mb-1">
-                  Assets Allocation
-                </label>
-                <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                  Asset allocation involves dividing an investment portfolio
-                  among different asset categories
-                </span>
-              </Card.Header>
-              <Card.Body className="card-body crypto-wallet mx-auto"></Card.Body>
-              </Card>
-          </Col>
+         <TotalSwapsBasedOnDExComp CurrentTimeSpan={CurrentTimeSpan} />
            
         </div>
         {/* <!-- row closed --> */}

@@ -85,7 +85,7 @@ interface Props {
     CurrentTimeSpan: TimeSpanDataType
 }
 export default function PerformanceOverTime({ className, options, height, CurrentTimeSpan }: Props) {
-    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OptimismPerformance, CurrentTimeSpan)
+    // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OptimismPerformance, CurrentTimeSpan)
     const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.OptimismPerformance, CurrentTimeSpan));
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
     return (

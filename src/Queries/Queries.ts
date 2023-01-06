@@ -191,5 +191,64 @@ sum (num_swappers) num_swappers,
 sum (usd_volume) Total_swapped_volume
 from all_ 
 `,
+TotalSwapsBasedOnDex:`
+with UniSwap as (
+ select  
+COUNT (DISTINCT TX_HASH)  num_swaps,
+
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (0)  usd_volume,
+
+avg (0)  weekly_avg_volume ,
+median (0) Med_USD_volume,
+max (0)  Max_USD_volume,
+COUNT (DISTINCT contract_address)  num_pools
+  from optimism.core.fact_event_logs 
+where ORIGIN_TO_ADDRESS in ('0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45','0xe592427a0aece92de3edee1f18e0157c05861564')
+and EVENT_NAME = 'Swap'
+and TX_STATUS = 'SUCCESS'
+  and block_timestamp >= CURRENT_DATE -${TimeSpan}
+  
+),
+Sushiswap as (select 
+COUNT (DISTINCT TX_HASH)  num_swaps,
+
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (AMOUNT_IN_USD)  usd_volume,
+
+avg (AMOUNT_IN_USD)  weekly_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume,
+COUNT (DISTINCT POOL_NAME)  num_pools 
+from optimism.sushi.ez_swaps 
+  where  block_timestamp >= CURRENT_DATE -${TimeSpan} 
+  ),
+Velodrome as (select 
+COUNT (DISTINCT TX_HASH)  num_swaps,
+
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (AMOUNT_IN_USD)  usd_volume,
+
+avg (AMOUNT_IN_USD)  weekly_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume,
+
+COUNT (DISTINCT POOL_NAME)  num_pools 
+from optimism.velodrome.ez_swaps
+where  block_timestamp >= CURRENT_DATE -${TimeSpan} 
+  ),
+all_ as (
+  select 'Uniswap' platform , * from UniSwap 
+  UNION
+  select 'Sushiswap' platform , * from Sushiswap 
+  UNION
+  select 'Velodrome' platform , * from Velodrome
+) 
+select * from all_ 
+
+`
  }
 }
