@@ -248,6 +248,69 @@ all_ as (
   select 'Velodrome' platform , * from Velodrome
 ) 
 select * from all_ 
+`,
+swapsOverTime :`with UniSwap as (
+ select  BLOCK_TIMESTAMP::date daily ,
+COUNT (DISTINCT TX_HASH)  num_swaps,
+sum (num_swaps) over (ORDER BY daily)  cum_swaps,
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+sum (num_swappers) over (order by daily ) cum_swappers ,
+sum (0)  usd_volume,
+sum (usd_volume) over (ORDER BY daily) cum_volume,
+avg (0)  daily_avg_volume ,
+median (0) Med_USD_volume,
+max (0)  Max_USD_volume,
+avg (daily_avg_volume) over (order by daily rows between 7 PRECEDING and current row) as Moving_Average_7,
+COUNT (DISTINCT contract_address)  num_pools
+  from optimism.core.fact_event_logs 
+where ORIGIN_TO_ADDRESS in ('0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45','0xe592427a0aece92de3edee1f18e0157c05861564')
+and EVENT_NAME = 'Swap'
+and TX_STATUS = 'SUCCESS'
+  and BLOCK_TIMESTAMP::date >= CURRENT_DATE - ${TimeSpan} 
+  group by 1 
+),
+Sushiswap as (select 
+BLOCK_TIMESTAMP::date daily   ,
+COUNT (DISTINCT TX_HASH)  num_swaps,
+sum (num_swaps) over (ORDER BY daily)  cum_swaps,
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+sum (num_swappers) over (order by daily ) cum_swappers ,
+sum (AMOUNT_IN_USD)  usd_volume,
+sum (usd_volume) over (ORDER BY daily) cum_volume,
+avg (AMOUNT_IN_USD)  daily_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume,
+avg (daily_avg_volume) over (order by daily rows between 7 PRECEDING and current row) as Moving_Average_7,
+COUNT (DISTINCT POOL_NAME)  num_pools 
+from optimism.sushi.ez_swaps 
+  where  BLOCK_TIMESTAMP::date >= CURRENT_DATE - ${TimeSpan} 
+group by 1
+  ),
+Velodrome as (select 
+BLOCK_TIMESTAMP::date daily   ,
+COUNT (DISTINCT TX_HASH)  num_swaps,
+sum (num_swaps) over (ORDER BY daily)  cum_swaps,
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+sum (num_swappers) over (order by daily ) cum_swappers ,
+sum (AMOUNT_IN_USD)  usd_volume,
+sum (usd_volume) over (ORDER BY daily) cum_volume,
+avg (AMOUNT_IN_USD)  daily_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume,
+avg (daily_avg_volume) over (order by daily rows between 7 PRECEDING and current row) as Moving_Average_7,
+COUNT (DISTINCT POOL_NAME)  num_pools 
+from optimism.velodrome.ez_swaps
+  where  BLOCK_TIMESTAMP::date >= CURRENT_DATE - ${TimeSpan}
+group by 1
+  ),
+all_ as (
+  select 'Uniswap' platform , * from UniSwap 
+  UNION
+  select 'Sushiswap' platform , * from Sushiswap 
+  UNION
+  select 'Velodrome' platform , * from Velodrome
+) 
+select * from all_ order by daily
 
 `
  }

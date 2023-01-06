@@ -27,6 +27,10 @@ import { Queries } from "../../src/Queries/Queries";
 import { convertToInternationalCurrencySystem } from "../../src/lib/ConvertToInternationaCurrency/convertToInternationalCurrencySystem";
 import { SpinnerLoader } from "../../src/components/Spinners/SpinnerLoader";
 import TotalSwapsBasedOnDExComp from "../../src/components/OPCharts/Dex/TotalSwapsBasedOnDex";
+import { useFlipside } from "../../src/components/hoooks/useflipside";
+import useQueryWithTimeSpan2 from "../../src/components/hoooks/useQueryWithTimeSpan2";
+import DailyNumSwapsComp from "../../src/components/OPCharts/Dex/DailyNumSwapsComp";
+import DailyNumSwappersComp from "../../src/components/OPCharts/Dex/DailyNumSwappersComp";
 
 
 const TRADINGACTIVITIES = [
@@ -91,6 +95,8 @@ const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
   const [Total,setTotal]=useState(CryptoCurrencies)
   const TotalSwaps = useSingleNumber(Queries.Dex.TotalSwaps,1,CurrentTimeSpan);
+  const SwapsOvertime = useFlipside(useQueryWithTimeSpan2(Queries.Dex.swapsOverTime,CurrentTimeSpan));
+  console.log("DATATAA",SwapsOvertime)
   useEffect(()=>{
     if(!TotalSwaps.Loading && TotalSwaps.QueryResult && TotalSwaps.QueryResult.length >0 ){
       let temp = CryptoCurrencies;
@@ -192,45 +198,57 @@ const Dashboard = () => {
         {/* <!-- row closed --> */}
 
         {/* <!-- row opened --> */}
-        <Row className=" row-sm">
+        <Row className="row row-sm">
           <Col
-            md={12}
-            sm={12}
-            lg={12}
-            xl={12}
+            md={6}
+            sm={6}
+            lg={6}
+            xl={6}
             xxl={4}
-            className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-4"
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-4"
           >
             <Card className="custom-card overflow-hidden">
               <Card.Header className="card-header border-bottom-0">
                 <label className="main-content-label my-auto pt-2 mb-1">
-                  Assets Allocation
+                  Daily Number of Swaps 
                 </label>
                 <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                  Asset allocation involves dividing an investment portfolio
-                  among different asset categories
+                  Daily Number of Swaps by DEXs in the {CurrentTimeSpan}
                 </span>
               </Card.Header>
-              <Card.Body className="card-body crypto-wallet mx-auto">
-                {/* <div>
-                  <ReactApexChart
-                    options={cryptodashboard.Cryptodashboard.options}
-                    series={cryptodashboard.Cryptodashboard.series}
-                    type="donut"
-                    height={250}
-                  />
-                </div>
-                <div>
-                  <div className="chart-circle-value circle-style">
-                    <div className="tx-20 font-weight-bold">55%</div>
-                  </div>
-                </div> */}
+              <Card.Body className="card-body crypto-wallet">
+              <div>
+              <DailyNumSwapsComp CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
+              </div>
               </Card.Body>
-
-       
             </Card>
           </Col>
-          <div className="col-xl-12 col-xxl-8 col-lg-12 col-md-12">
+
+            <Col
+            md={6}
+            sm={6}
+            lg={6}
+            xl={6}
+            xxl={4}
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-4"
+          >
+            <Card className="custom-card overflow-hidden">
+              <Card.Header className="card-header border-bottom-0">
+                <label className="main-content-label my-auto pt-2 mb-1">
+                  Daily Number of Swappers 
+                </label>
+                <span className="d-block tx-12 mb-0 mt-1 text-muted">
+                  Daily Number of SWappers by DEXs in the {CurrentTimeSpan}
+                </span>
+              </Card.Header>
+              <Card.Body className="card-body crypto-wallet">
+              <div>
+              <DailyNumSwappersComp CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
+              </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          {/* <div className="col-xl-12 col-xxl-8 col-lg-12 col-md-12">
             <div className="card card-bitcoin custom-card">
               <div className="card-header border-bottom-0">
                 <label className="main-content-label my-auto pt-2 tx-15-f">
@@ -242,7 +260,7 @@ const Dashboard = () => {
                 </span>
               </div>
               <div className="card-body">
-                {/* <div id="btc_chart"></div> */}
+              
 
                 <ReactApexChart
                   options={cryptodashboard.ApexChart.options}
@@ -278,11 +296,11 @@ const Dashboard = () => {
                       <p>$134.17B</p>
                     </div>
                   </div>
-                  {/* <!-- row --> */}
+                  
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </Row>
         {/* <!-- row closed --> */}
 

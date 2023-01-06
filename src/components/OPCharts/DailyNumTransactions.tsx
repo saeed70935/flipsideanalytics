@@ -94,6 +94,7 @@ export default function DailyNumTransactionsAndActiveUsers({ className, options,
     // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DailynumtransactionsandActiveusers, CurrentTimeSpan)
     const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.DailynumtransactionsandActiveusers, CurrentTimeSpan));
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
+    console.log("DailyNumTransactionsAndActiveUsers", ChartData)
     return (
         <>
             {Result.Loading ? <SpinnerLoader height={height} className={className} /> :

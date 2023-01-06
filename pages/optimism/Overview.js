@@ -351,7 +351,9 @@ const Dashboard = () => {
                       <PerformanceOverTime CurrentTimeSpan={CurrentTimeSpan}  options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100"/>
                         {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
                       </div>
+                      <div className='pb-4'></div>
                       <div className='pb-2'></div>
+                      <div className='pb-1'></div>
                     </Container>
                   </div>
                 </Card.Body>
