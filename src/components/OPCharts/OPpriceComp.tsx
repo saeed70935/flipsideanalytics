@@ -7,6 +7,7 @@ import { TimeSpanDataType } from '../../Queries/types';
 import { useChartData } from '../hoooks/useChartData';
 import {   FlipsideResponse,FlipsideQueryResult, useFlipside } from '../hoooks/useflipside';
 import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
+import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
 import { SpinnerLoader } from '../Spinners/SpinnerLoader';
  const OPpriceQuery = `
   select HOUR::date daily,
@@ -72,8 +73,9 @@ const linechart  = {
     CurrentTimeSpan :TimeSpanDataType
   }
 export default function OPpriceComp({ className, options, height, CurrentTimeSpan }:Props){
-  const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OPPrice, CurrentTimeSpan)
-  const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+  // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OPPrice, CurrentTimeSpan)
+  console.log("useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan)", useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan))
+  const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan));
   const ChartData = useChartData(0, Result.QueryResult, VerticalSettings)
 
     return(

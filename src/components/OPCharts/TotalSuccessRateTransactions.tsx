@@ -8,6 +8,7 @@ import { Queries } from '../../Queries/Queries';
 import { SpinnerLoader } from '../Spinners/SpinnerLoader';
 import * as R from 'ramda';
 import { convertToInternationalCurrencySystem } from '../../lib/ConvertToInternationaCurrency/convertToInternationalCurrencySystem';
+import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const radialbarchart = {
@@ -67,8 +68,8 @@ interface Props {
     CurrentTimeSpan: TimeSpanDataType
 }
 export function TotalSuccessRateTransactions ({CurrentTimeSpan}:Props){
-    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.TotalSuccessPercentage, CurrentTimeSpan);
-    const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+    // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.TotalSuccessPercentage, CurrentTimeSpan);
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.TotalSuccessPercentage, CurrentTimeSpan));
     const [Radial, setRadial] = useState<typeof radialbarchart>(radialbarchart);
     useEffect(()=>{
         if (Result.Success){

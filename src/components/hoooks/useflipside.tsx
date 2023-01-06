@@ -3,6 +3,7 @@ import { Flipside, Query, QueryResultSet } from "../../lib/@flipsidecrypto/sdk/s
 import Moment from 'moment'
 import * as R from 'ramda'
 const flipside = new Flipside("99e8a56d-0bc7-49ea-9c79-94492d6326f0");
+// const flipside = new Flipside("76eb7581-0a45-421d-b8bb-022dc9a2e04b")
 export interface FlipsideQueryResult  {name:string|null;type:'date'|'number'|'text'|'boolean'|string;value:Array<string|number|boolean|null>} ;
 export type QueryRowItem = Array<string | number>
 export interface FlipsideResponse {
@@ -34,6 +35,7 @@ export function useFlipside (query:string){
     useEffect(()=>{
         let TempFineData: FlipsideQueryResult[] = []
         let TempRows: QueryRowItem[] = []
+        console.log("ddw", QueryResult.status)
         if (QueryResult.status === 'error'){
             setFailed(true);
             setLoading(false);

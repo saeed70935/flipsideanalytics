@@ -9,6 +9,7 @@ import  * as  R from 'ramda';
 import { v4 as uuidv4 } from 'uuid';
 import { _DeepPartialObject } from 'chart.js/types/utils';
 import ReactEcharts from 'echarts-for-react';
+import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
 
 const option = {
     backgroundColor:"transparent",
@@ -62,8 +63,8 @@ interface Props {
     CurrentTimeSpan: TimeSpanDataType
 }
 export default function UsersDistributionByNumTransactions({ className, options, height, CurrentTimeSpan }: Props) {
-    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DistributionByNumTransactions, CurrentTimeSpan)
-    const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+    // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DistributionByNumTransactions, CurrentTimeSpan)
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.DistributionByNumTransactions, CurrentTimeSpan));
     const [PiID, setPIEID] = useState<string>(uuidv4())
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     useEffect(()=>{

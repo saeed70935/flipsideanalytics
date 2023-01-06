@@ -7,6 +7,7 @@ import { TimeSpanDataType } from '../../Queries/types';
 import { useChartData } from '../hoooks/useChartData';
 import { FlipsideResponse, FlipsideQueryResult, useFlipside } from '../hoooks/useflipside';
 import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
+import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
 import { SpinnerLoader } from '../Spinners/SpinnerLoader';
 const VerticalSettings = [
     
@@ -85,7 +86,7 @@ interface Props {
 }
 export default function PerformanceOverTime({ className, options, height, CurrentTimeSpan }: Props) {
     const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OptimismPerformance, CurrentTimeSpan)
-    const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.OptimismPerformance, CurrentTimeSpan));
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
     return (
         <>

@@ -16,6 +16,6 @@
     "incremental": true,
     
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "redux/store.s", "pages/components/dashboard/dashboard.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "redux/store.s", "pages/components/dashboard/dashboard.js", "pages/optimism/swaps.js"],
   "exclude": ["node_modules"]
 }

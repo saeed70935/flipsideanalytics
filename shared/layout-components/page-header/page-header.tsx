@@ -5,7 +5,8 @@ import { TimeSpanDataType } from '../../../src/Queries/types';
 interface Props {
   title:string;
   setCurrentTimeSpan: (SelectedTimespan: TimeSpanDataType)=>void;
-  CurrentTimeSpan: TimeSpanDataType
+  CurrentTimeSpan: TimeSpanDataType;
+  subtitle?:string;
 }
 
 const DropDownTimeData: TimeSpanDataType[] = ["Last 7 days","Last 30 days", 'Last 3 months', 'Last 6 months', 'Last one year']
@@ -25,7 +26,7 @@ function DropDownTimeItemsComp({onSelectTimeSpan }: DropDownTimeItemProps){
     </>
   )
 }
-const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan }:Props) => {
+const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Props) => {
   // const [SelectedTimeSpan, setSelectedTimeSpan] = useState<DropDownTimeSpanData>("Last 30 days")
   // useCallback(() => { 
   //   setCurrentTimeSpan(SelectedTimeSpan)
@@ -34,10 +35,10 @@ const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan }:Props) => {
     <div className="page-header">
       <div>
         <h2 className="main-content-title tx-24 mg-b-5">{title}</h2>
-        {/* <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a>{props.item}</a></li>
-          <li className="breadcrumb-item active" aria-current="page">{props.active_item}</li>
-        </ol> */}
+        {subtitle ?<ol className="breadcrumb">
+          <li className="breadcrumb-item"><a>{subtitle}</a></li>
+          {/* <li className="breadcrumb-item active" aria-current="page">{props.active_item}</li> */}
+        </ol> :<></>}
       </div>
       
       <div className="d-flex   ">

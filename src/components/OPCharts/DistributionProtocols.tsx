@@ -11,6 +11,7 @@ import * as  R from 'ramda';
 import { v4 as uuidv4 } from 'uuid';
 import { _DeepPartialObject } from 'chart.js/types/utils';
 import ReactEcharts from 'echarts-for-react';
+import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
 //@ts-ignore
 // export const Piechart = {
 //     unload: true,
@@ -65,7 +66,7 @@ const option = {
 };
 export default function DistributionProtocols ({ className, options, height, CurrentTimeSpan }: Props) {
     const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.TransactionsType, CurrentTimeSpan )
-    const Result: FlipsideResponse = useFlipside(ModifiedQuery);
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.TransactionsType, CurrentTimeSpan));
     const [PiID, setPIEID] = useState<string>(uuidv4())
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     const [DataIsReady, setDataIsReady] = useState(false);

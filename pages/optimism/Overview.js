@@ -128,7 +128,7 @@ const Dashboard = () => {
     <>
         <Seo title="Dashboard"/>
 
-      <PageHeader CurrentTimeSpan={CurrentTimeSpan} setCurrentTimeSpan={(selected) => setCurrentTimeSpan(selected)} title="Welcome To Optimism Dashboard" item="Home" active_item="Project Dashboard"/>
+      <PageHeader CurrentTimeSpan={CurrentTimeSpan} setCurrentTimeSpan={(selected) => setCurrentTimeSpan(selected)} title="Welcome To Optimism Dashboard" item="Overview" active_item="Project Dashboard"/>
     {/* <!--Row--> */}
 					<div className="row row-sm">
 						<div className="col-sm-12 col-lg-12 col-xl-8">
