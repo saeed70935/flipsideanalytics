@@ -292,8 +292,8 @@ const Dashboard = () => {
             
             {/* <!-- col end --> */}
             <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card overflow-hidden">
-                <Card.Header className="border-bottom-0 pb-0">
+              <Card className="custom-card overflow-hidden pb-1">
+                <Card.Header className="border-bottom-0 pb-10">
                   <div>
                     <div className="d-md-flex">
                       <label className="main-content-label my-auto pt-2">
@@ -307,11 +307,13 @@ const Dashboard = () => {
                 </Card.Header>
                 <Card.Body className="py-0">
                 <ActiveUsersOnWeekdays CurrentTimeSpan={CurrentTimeSpan} />
+              
                 </Card.Body>
+                  {/* <div className='mb-4'></div> */}
               </Card>
             </Col>
              <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card overflow-hidden">
+              <Card className="custom-card overflow-hidden pb-1">
                 <Card.Header className="border-bottom-0 pb-0">
                   <div>
                     <div className="d-md-flex">

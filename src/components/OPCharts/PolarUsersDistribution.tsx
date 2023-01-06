@@ -1,27 +1,60 @@
-import { ChartData, ChartOptions, CoreChartOptions, DatasetChartOptions, ElementChartOptions, PluginChartOptions, PolarAreaControllerChartOptions, ScaleChartOptions } from 'chart.js';
+import {  ChartOptions } from 'chart.js';
 import React, { useEffect, useState } from 'react';
-import { Pie, PolarArea } from 'react-chartjs-2';
 import { Queries } from '../../Queries/Queries';
 import { TimeSpanDataType } from '../../Queries/types';
-import { useChartData } from '../hoooks/useChartData';
 import { FlipsideResponse, useFlipside } from '../hoooks/useflipside';
 import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
 import { SpinnerLoader } from '../Spinners/SpinnerLoader';
 import  * as  R from 'ramda';
 import { v4 as uuidv4 } from 'uuid';
 import { _DeepPartialObject } from 'chart.js/types/utils';
-//@ts-ignore
-import C3Charts from 'react-c3js';
-import { FlipsideRowsResponse, useFlipsideRows } from '../hoooks/useflipsideRows';
-export const Piechart = {
-    unload: true,
-    data: {
-        unload :true,
-        columns: [],
-        type: 'pie'
-    }
-};
+import ReactEcharts from 'echarts-for-react';
 
+const option = {
+    backgroundColor:"transparent",
+    tooltip: {
+        trigger: 'item',
+        
+    },
+    legend: {
+        bottom: 0,
+        show: true,
+        // textStyle: { fontSize: 10 }
+        // left: 'center'
+    },
+    series: [
+        {
+            // name: 'Access From',
+            type: 'pie',
+            height:'250px',
+            radius: ['50%', '80%'],
+            avoidLabelOverlap: true,
+            
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: 10,
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: [
+                
+            ]
+        }
+    ]
+};
 interface Props {
     className: string,
     options: ChartOptions,
@@ -29,39 +62,44 @@ interface Props {
     CurrentTimeSpan: TimeSpanDataType
 }
 export default function UsersDistributionByNumTransactions({ className, options, height, CurrentTimeSpan }: Props) {
-    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DistributionByNumTransactions, "Last 30 days")
+    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DistributionByNumTransactions, CurrentTimeSpan)
     const Result: FlipsideResponse = useFlipside(ModifiedQuery);
     const [PiID, setPIEID] = useState<string>(uuidv4())
-    const [PolarChart, setPolarChart] = useState<typeof Piechart>(Piechart)
-    const [DataIsReady, setDataIsReady] = useState(false);
-    const [RenderChart,setRenderChart] = useState(false)
-    useEffect(() => { setPIEID(uuidv4()); setDataIsReady(false); setRenderChart(false)   }, [ModifiedQuery])
+    const [PolarChart, setPolarChart] = useState<typeof option>(option)
     useEffect(()=>{
         
         if(Result.Success && Result.QueryRows.length >0){
-            let Temp = R.clone(Piechart);
-            //@ts-ignore
-            Temp.data.columns = R.clone(Result.QueryRows);
-            Temp.data.unload = true; 
+            let Temp = R.clone(option);
+            let TempData: { value: number; name: string }[] = []
+            Result.QueryRows.map((item, index) => {
+                //@ts-ignore
+                TempData.push({ name: item[0], value: item[1] })
+            })
+            Temp.series[0].data = R.clone(TempData);
             setPolarChart(R.clone(Temp))
-            setDataIsReady(true)
         }
 
     }, [Result.Success, Result.QueryRows])
-    useEffect(() => {
-        if(DataIsReady) {
-            setPIEID(uuidv4())
-            setRenderChart(true)
-        }
-         }, [DataIsReady])
+   
     return (
         <>
             {Result.Loading ? <SpinnerLoader height={height} className={className} /> :
-                <div className="" id="morrisArea2">
-                    <C3Charts
-                        id="chart-pie2"
-                        className="chartsh"
-                        data={PolarChart.data}
+                // <div className="" id="morrisArea2">
+                //     <C3Charts
+                //         id="chart-pie2"
+                //         className="chartsh"
+                //         data={PolarChart.data}
+                //         // columns={PolarChart.pie}
+                //     />
+                // </div>
+                <div className="ht-400" id="morrisArea2">
+                    <ReactEcharts 
+                    style={{height:"400px",backgroundColor:"transparent"}} theme="dark"
+                        // id="chart-pie2"
+                        // className="chartsh"
+                        lazyUpdate  option={PolarChart}
+                        //@ts-ignore
+                        series={PolarChart.series}
                         // columns={PolarChart.pie}
                     />
                 </div>

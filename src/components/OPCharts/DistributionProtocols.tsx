@@ -99,7 +99,7 @@ export default function DistributionProtocols ({ className, options, height, Cur
                 //     // columns={PolarChart.pie}
                 //     />
                 // </div>
-                <div className="ht-350">
+                <div className="ht-300">
                     <ReactEcharts lazyUpdate className="chartsh" option={PolarChart} 
                 //@ts-ignore
                 series={PolarChart.series} />
