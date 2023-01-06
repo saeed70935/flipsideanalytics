@@ -218,7 +218,7 @@ const Dashboard = () => {
               </Card.Header>
               <Card.Body className="card-body crypto-wallet">
               <div>
-              <DailyNumSwapsComp CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
+              <DailyNumSwapsComp height="150" CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
               </div>
               </Card.Body>
             </Card>
@@ -243,7 +243,7 @@ const Dashboard = () => {
               </Card.Header>
               <Card.Body className="card-body crypto-wallet">
               <div>
-              <DailyNumSwappersComp CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
+              <DailyNumSwappersComp height="150" CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
               </div>
               </Card.Body>
             </Card>

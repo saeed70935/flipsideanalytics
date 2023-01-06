@@ -111,21 +111,7 @@ const options = {
         },
     },
 };
-export const linechartoptions = {
 
-    responsive: true,
-    maintainAspectRatio: false,
-
-    plugins: {
-        legend: {
-            position: "bottom",
-        },
-        title: {
-            display: false,
-            text: "Chart.js Line Chart",
-        },
-    },
-};
 interface Props {
     className: string,
     // options: ChartOptions,
@@ -170,7 +156,7 @@ export default function DailyNumSwappersComp({ className, height, CurrentTimeSpa
                     datasets: chartdatatemp.vertical
                 }}
                 // className="barchart"
-                height="250"
+                    height={height}
             />
         }     
         </>
