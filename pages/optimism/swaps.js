@@ -126,6 +126,7 @@ const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
   const [Total,setTotal]=useState(CryptoCurrencies);
   const [SelectedDex,setSelectedDex] = useState(DEXPlatforms[1]);
+  const [SelectedDexSwappers,setSelectedDexSwappers] = useState(DEXPlatforms[1]);
   const TotalSwaps = useSingleNumber(Queries.Dex.TotalSwaps,1,CurrentTimeSpan);
   const SwapsOvertime = useFlipside(useQueryWithTimeSpan2(Queries.Dex.swapsOverTime,CurrentTimeSpan));
   // const TopPairsQueryResult = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs,OptimismSwapPlatFormParam,SelectedDex),CurrentTimeSpan));
@@ -335,7 +336,7 @@ const Dashboard = () => {
           </div> */}
         </Row>
         <Row className="row row-sm">
-        <TopSwapPairsComp CurrentTimeSpan={CurrentTimeSpan} SelectedDex={SelectedDex} onSelectedDex={(DEX)=>setSelectedDex(DEX)} />
+        <TopSwapPairsComp CurrentTimeSpan={CurrentTimeSpan} SelectedDex={SelectedDex} SelectedDexSwappers={SelectedDexSwappers} onSelectedDexSwappers={(DEX)=>setSelectedDexSwappers(DEX)} onSelectedDex={(DEX)=>setSelectedDex(DEX)} />
           {/* <Col
             md={6}
             sm={6}

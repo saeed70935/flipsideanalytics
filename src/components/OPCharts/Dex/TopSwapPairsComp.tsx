@@ -21,6 +21,22 @@ const VerticalSettings = [{
 }
 
 ];
+const VerticalSettingsSwappers = [{
+    backgroundColor: "#53caed",
+    borderColor: "#53caed",
+    borderWidth: 1.0,
+    pointBackgroundColor: "#ffffff",
+    // label: "",
+},
+    {
+        backgroundColor: "#53caed",
+        borderColor: "#53caed",
+        borderWidth: 1.0,
+        pointBackgroundColor: "#ffffff",
+        // label: "",
+    }
+
+];
 export const linechartoptions = {
 
     responsive: true,
@@ -46,7 +62,9 @@ interface Props {
     VerticalIndex :number;
     HorizontalIndex :number ;
     onSelectedDex:(dex:string)=>void;
-    SelectedDex:string
+    SelectedDex:string;
+    SelectedDexSwappers:string;
+    onSelectedDexSwappers:(DEX:string)=>void
 }
 function DropDownPlatform({ DropDownData, onSelecteItem, SelectedPlatform }) {
     return (<div className="d-flex justify-content-center align-items-center  ">
@@ -75,11 +93,14 @@ function DropDownPlatform({ DropDownData, onSelecteItem, SelectedPlatform }) {
     </div>
     )
 }
-export default function TopSwapPairsComp({ className, height, QueryResult, VerticalIndex, HorizontalIndex, CurrentTimeSpan ,onSelectedDex,SelectedDex}: Props) {
+export default function TopSwapPairsComp({ className, height, QueryResult, VerticalIndex, HorizontalIndex, CurrentTimeSpan, onSelectedDex, SelectedDex, SelectedDexSwappers ,onSelectedDexSwappers}: Props) {
     const TopPairsQueryResult = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs, OptimismSwapPlatFormParam, SelectedDex), CurrentTimeSpan));
+    const TopPairsQueryResultSwappers = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs_swappers, OptimismSwapPlatFormParam, SelectedDexSwappers), CurrentTimeSpan));
     console.log("TopPairsQueryResult", TopPairsQueryResult)
     const ChartData = useChartData(0, TopPairsQueryResult.QueryResult, VerticalSettings);
-    const [SelectedVertical, setSelectedVertical] = useState<verticalChartData[]>([])
+    const ChartDataSwappers = useChartData(0, TopPairsQueryResultSwappers.QueryResult, VerticalSettingsSwappers);
+    const [SelectedVertical, setSelectedVertical] = useState<verticalChartData[]>([]);
+    const [SelectedVerticalSwappers, setSelectedVerticalSwappers] = useState<verticalChartData[]>([])
     useEffect(() => { 
         if (ChartData.vertical.length>0){
             let temp: verticalChartData[] = [];
@@ -91,6 +112,17 @@ export default function TopSwapPairsComp({ className, height, QueryResult, Verti
         }
        
     }, [ChartData.vertical, VerticalIndex,])
+    useEffect(() => {
+        if (ChartDataSwappers.vertical.length > 0) {
+            let temp: verticalChartData[] = [];
+            ChartDataSwappers.vertical.map((item, index) => {
+                if (index === 1)
+                    temp.push(item)
+            })
+            setSelectedVerticalSwappers(R.clone(temp));
+        }
+
+    }, [ChartDataSwappers.vertical])
     return (
         <>
             <Col
@@ -114,7 +146,7 @@ export default function TopSwapPairsComp({ className, height, QueryResult, Verti
                             </Col>
                         </Row>
                         <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                            Top swap pairs on {SelectedDex.replaceAll(`'`, "")} in the  {CurrentTimeSpan}
+                            Top swap pairs by number of swaps on {SelectedDex.replaceAll(`'`, "")} in the  {CurrentTimeSpan}
                         </span>
                     </Card.Header>
                     <Card.Body className="card-body ht-300 d-flex justify-content-center align-items-center crypto-wallet">
@@ -146,26 +178,26 @@ export default function TopSwapPairsComp({ className, height, QueryResult, Verti
                         <Row className="row row-sm">
                             <Col className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6" >
                                 <label className="main-content-label my-auto pt-2 mb-1">
-                                    Top Swap Pairs by number of swaps
+                                    Top Swap Pairs by number of swappers
                                 </label>
                             </Col>
                             <Col className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6 d-flex justify-content-end">
-                                <DropDownPlatform DropDownData={DEXPlatforms} SelectedPlatform={SelectedDex} onSelecteItem={(item) => onSelectedDex(item)} />
+                                <DropDownPlatform DropDownData={DEXPlatforms} SelectedPlatform={SelectedDexSwappers} onSelecteItem={(item) => onSelectedDexSwappers(item)} />
                             </Col>
                         </Row>
                         <span className="d-block tx-12 mb-0 mt-1 text-muted">
-                            Top swap pairs on {SelectedDex.replaceAll(`'`, "")} in the  {CurrentTimeSpan}
+                            Top swap pairs by number of Swappers on {SelectedDex.replaceAll(`'`, "")} in the  {CurrentTimeSpan}
                         </span>
                     </Card.Header>
                     <Card.Body className="card-body ht-300 d-flex justify-content-center align-items-center crypto-wallet">
 
-                        {TopPairsQueryResult.Loading ? <SpinnerLoader height={height} className={className} /> :
+                        {TopPairsQueryResultSwappers.Loading ? <SpinnerLoader height={height} className={className} /> :
                             <Bar height={height}
                                 //@ts-ignore
                                 options={linechartoptions} className={className} data={{
-                                    labels: ChartData.horizontal,
+                                    labels: ChartDataSwappers.horizontal,
                                     //@ts-ignore
-                                    datasets: SelectedVertical
+                                    datasets: SelectedVerticalSwappers
                                 }}></Bar>
                         }
 
