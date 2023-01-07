@@ -11,57 +11,57 @@ import { Card, Col } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
 import { useChartData, verticalChartData } from '../../hoooks/useChartData';
 const VerticalSettings = [{
-    backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-    borderColor: ["#9877f9", "#53caed", "#f44336"],
+    backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+    borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
     borderWidth: 1.0,
     pointBackgroundColor: "#ffffff",
 
 },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 
     },
     {
-        backgroundColor: ["#9877f9", "#53caed", "#f44336"],
-        borderColor: ["#9877f9", "#53caed", "#f44336"],
+        backgroundColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
+        borderColor: ["#9877f9", "#53caed", 'rgb(255, 99, 132)'],
         borderWidth: 1.0,
         pointBackgroundColor: "#ffffff",
 

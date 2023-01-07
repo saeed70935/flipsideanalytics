@@ -74,7 +74,6 @@ const linechart  = {
   }
 export default function OPpriceComp({ className, options, height, CurrentTimeSpan }:Props){
   // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.OPPrice, CurrentTimeSpan)
-  console.log("useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan)", useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan))
   const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.OPPrice, CurrentTimeSpan));
   const ChartData = useChartData(0, Result.QueryResult, VerticalSettings)
 
