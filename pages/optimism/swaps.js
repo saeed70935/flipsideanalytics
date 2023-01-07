@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PageHeader from "../../shared/layout-components/page-header/page-header";
 import Slider from "react-slick";
-import { Card, Col, Row, Table } from "react-bootstrap";
+import { Card, Col, Dropdown, Row, Table } from "react-bootstrap";
 import * as cryptodashboard from "../../shared/data/crypto-currencies/cryptodashboard";
 import dynamic from "next/dynamic";
 import * as R from 'ramda';
@@ -31,6 +31,9 @@ import { useFlipside } from "../../src/components/hoooks/useflipside";
 import useQueryWithTimeSpan2 from "../../src/components/hoooks/useQueryWithTimeSpan2";
 import DailyNumSwapsComp from "../../src/components/OPCharts/Dex/DailyNumSwapsComp";
 import DailyNumSwappersComp from "../../src/components/OPCharts/Dex/DailyNumSwappersComp";
+import useQueryWithReplacedString from "../../src/components/hoooks/useQueryWithParam";
+import { OptimismSwapPlatFormParam } from "../../src/Queries/types";
+import TopSwapPairsComp from "../../src/components/OPCharts/Dex/TopSwapPairsComp";
 
 
 const TRADINGACTIVITIES = [
@@ -91,12 +94,42 @@ const TRADINGACTIVITIES = [
     { coin: "Total Swappers", price: 0,  },
     { coin: "Total swapped volume", price: 0,  },
   ];
+function DropDownPlatform ({DropDownData,onSelecteItem,SelectedPlatform}){
+ return( <div className="d-flex justify-content-center align-items-center  ">
+        <h5 className='p-1 mt-1  tx-13 '>Platform :</h5>
+        <div className="justify-content-center">
+          
+          <Dropdown  >
+            <Dropdown.Toggle size="sm"  variant="primary">
+              {SelectedPlatform.replaceAll(`'`,"")}
+            <i className="fas fa-caret-down ms-1"></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className=" tx-13" style={{ marginTop: "0px" }}>
+            <h6 className="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+            Choose Platform
+            </h6>
+              {
+                DropDownData.map((item,index)=>{
+                  return (
+                    <Dropdown.Item key={index} onClick={() => onSelecteItem(item)} >{item.replaceAll(`'`,"")}</Dropdown.Item>
+                  )
+                })
+              }
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      </div>
+ )
+}
+const DEXPlatforms =[`'Uniswap'`,`'Sushiswap'`,`'Velodrome'`]
 const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
-  const [Total,setTotal]=useState(CryptoCurrencies)
+  const [Total,setTotal]=useState(CryptoCurrencies);
+  const [SelectedDex,setSelectedDex] = useState(DEXPlatforms[1]);
   const TotalSwaps = useSingleNumber(Queries.Dex.TotalSwaps,1,CurrentTimeSpan);
   const SwapsOvertime = useFlipside(useQueryWithTimeSpan2(Queries.Dex.swapsOverTime,CurrentTimeSpan));
-  console.log("DATATAA",SwapsOvertime)
+  const TopPairsQueryResult = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs,OptimismSwapPlatFormParam,SelectedDex),CurrentTimeSpan));
+  console.log("TopPairsQueryResult",TopPairsQueryResult)
   useEffect(()=>{
     if(!TotalSwaps.Loading && TotalSwaps.QueryResult && TotalSwaps.QueryResult.length >0 ){
       let temp = CryptoCurrencies;
@@ -149,7 +182,6 @@ const Dashboard = () => {
   return (
     <>
       <Seo title={"Crypto Currencies Dashboard"} />
-
       <PageHeader subtitle="swaps on Velodrome,Uniswap and Sushiswap" CurrentTimeSpan={CurrentTimeSpan} setCurrentTimeSpan={(selected) => setCurrentTimeSpan(selected)} title="Swaps on Optimism" item="Home" active_item="Project Dashboard"/>
       <div>
         {/* <!-- row opened --> */}
@@ -205,7 +237,7 @@ const Dashboard = () => {
             lg={6}
             xl={6}
             xxl={4}
-            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-4"
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6"
           >
             <Card className="custom-card overflow-hidden">
               <Card.Header className="card-header border-bottom-0">
@@ -230,7 +262,7 @@ const Dashboard = () => {
             lg={6}
             xl={6}
             xxl={4}
-            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-4"
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6"
           >
             <Card className="custom-card overflow-hidden">
               <Card.Header className="card-header border-bottom-0">
@@ -302,10 +334,69 @@ const Dashboard = () => {
             </div>
           </div> */}
         </Row>
+        <Row className="row row-sm">
+          <Col
+            md={6}
+            sm={6}
+            lg={6}
+            xl={6}
+            xxl={4}
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6"
+          >
+            <Card className="custom-card overflow-hidden">
+              <Card.Header className="card-header border-bottom-0">
+                <Row className="row row-sm">
+                <Col className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6" >
+                  <label className="main-content-label my-auto pt-2 mb-1">
+                    Top Swap Pairs by number of swaps
+                  </label>
+                  </Col>
+                  <Col  className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6 d-flex justify-content-end">
+                  <DropDownPlatform DropDownData={DEXPlatforms} SelectedPlatform={SelectedDex}  onSelecteItem={(item)=>setSelectedDex(item)}/>
+                  </Col>
+                </Row>
+                <span className="d-block tx-12 mb-0 mt-1 text-muted">
+                  Top swap pairs on {SelectedDex.replaceAll(`'`,"")} in the  {CurrentTimeSpan}
+                </span>
+              </Card.Header>
+              <Card.Body className="card-body crypto-wallet">
+              <div>
+              <TopSwapPairsComp height="150" CurrentTimeSpan={CurrentTimeSpan} QueryResult={TopPairsQueryResult} VerticalIndex={0} HorizontalIndex={0} />
+              </div>
+              </Card.Body>
+            </Card>
+          </Col>
+
+            <Col
+            md={6}
+            sm={6}
+            lg={6}
+            xl={6}
+            xxl={4}
+            className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-xxl-6"
+          >
+            <Card className="custom-card overflow-hidden">
+              <Card.Header className="card-header border-bottom-0">
+                <label className="main-content-label my-auto pt-2 mb-1">
+                  Daily Number of Swappers 
+                </label>
+                <span className="d-block tx-12 mb-0 mt-1 text-muted">
+                  Daily Number of SWappers by DEXs in the {CurrentTimeSpan}
+                </span>
+              </Card.Header>
+              <Card.Body className="card-body crypto-wallet">
+              <div>
+              <DailyNumSwappersComp height="150" CurrentTimeSpan={CurrentTimeSpan} QueryResult={SwapsOvertime} />
+              </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          
+        </Row>
         {/* <!-- row closed --> */}
 
         {/* <!-- row opened --> */}
-        <div className="row row-sm">
+        {/* <div className="row row-sm">
           <div className="col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xxl-8">
             <div className="row row-sm">
               <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -532,7 +623,7 @@ const Dashboard = () => {
               </ul>
             </Card>
           </Col>
-        </div>
+        </div> */}
       </div>
     </>
   );

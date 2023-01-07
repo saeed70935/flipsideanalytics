@@ -35,7 +35,6 @@ export function useFlipside (query:string){
     useEffect(()=>{
         let TempFineData: FlipsideQueryResult[] = []
         let TempRows: QueryRowItem[] = []
-        console.log("ddw", QueryResult.status)
         if (QueryResult.status === 'error'){
             setFailed(true);
             setLoading(false);

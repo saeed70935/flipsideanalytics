@@ -1,4 +1,4 @@
-import { TimeSpan } from "./types";
+import { OptimismSwapPlatFormParam, TimeSpan } from "./types";
 
 export const Queries = {
  OverView :{
@@ -311,7 +311,80 @@ all_ as (
   select 'Velodrome' platform , * from Velodrome
 ) 
 select * from all_ order by daily
+`,
+Top_10_pairs :`
+with UniSwap as (
+ select  
+   case when lower(CONTRACT_ADDRESS) = '0x85149247691df622eaf1a8bd0cafd40bc45154a9' then 'WETH/USDC'
+when lower(CONTRACT_ADDRESS) = '0xbf16ef186e715668aa29cef57e2fd7f9d48adfe6' then 'DAI/USDC'
+when lower(CONTRACT_ADDRESS) in( '0xfc1f3296458f9b2a27a0b91dd7681c4020e09d05', '0x68f5c0a2de713a54991e01858fd27a3832401849' ) then 'OP/WETH'
+when lower(CONTRACT_ADDRESS) = '0xf1f199342687a7d78bcc16fce79fa2665ef870e1' then 'USDC/USDT'
+when lower(CONTRACT_ADDRESS) = '0xc858a329bf053be78d6239c4a4343b8fbd21472b' then 'WETH/USDT'
+when lower(CONTRACT_ADDRESS) = '0x03af20bdaaffb4cc0a521796a223f7d85e2aac31' then 'WETH/DAI'
+when lower(CONTRACT_ADDRESS) = '0x1c3140ab59d6caf9fa7459c6f83d4b52ba881d36' then 'OP/USDC'
+when lower(CONTRACT_ADDRESS) = '0x95d9d28606ee55de7667f0f176ebfc3215cfd9c0' then 'DAI/WETH'
+when lower(CONTRACT_ADDRESS) = '0x252cbdff917169775be2b552ec9f6781af95e7f6' then 'USDC/sUSD'
+else lower(CONTRACT_ADDRESS) 
+end  pool,
+COUNT (DISTINCT TX_HASH)  num_swaps,
 
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (0)  usd_volume,
+
+avg (0)  weekly_avg_volume ,
+median (0) Med_USD_volume,
+max (0)  Max_USD_volume
+  from optimism.core.fact_event_logs 
+where ORIGIN_TO_ADDRESS in ('0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45','0xe592427a0aece92de3edee1f18e0157c05861564')
+and lower(CONTRACT_ADDRESS) <>'0xb589969d38ce76d3d7aa319de7133bc9755fd840'
+and EVENT_NAME = 'Swap'
+and TX_STATUS = 'SUCCESS'
+  and block_timestamp >= CURRENT_DATE - ${TimeSpan}
+  group by 1 
+),
+Sushiswap as (select 
+  POOL_NAME pool , 
+COUNT (DISTINCT TX_HASH)  num_swaps,
+
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (AMOUNT_IN_USD)  usd_volume,
+
+avg (AMOUNT_IN_USD)  weekly_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume
+from optimism.sushi.ez_swaps 
+  where block_timestamp >= CURRENT_DATE - ${TimeSpan} 
+  group by 1 
+  ),
+Velodrome as (select 
+   POOL_NAME pool , 
+COUNT (DISTINCT TX_HASH)  num_swaps,
+
+COUNT (DISTINCT ORIGIN_FROM_ADDRESS)  num_swappers,
+
+sum (AMOUNT_IN_USD)  usd_volume,
+
+avg (AMOUNT_IN_USD)  weekly_avg_volume ,
+median (AMOUNT_IN_USD) Med_USD_volume,
+max (AMOUNT_IN_USD)  Max_USD_volume
+ 
+from optimism.velodrome.ez_swaps
+   where block_timestamp >= CURRENT_DATE - ${TimeSpan}
+group by 1 
+  ),
+all_ as (
+  select 'Uniswap' platform , * from UniSwap 
+  UNION
+  select 'Sushiswap' platform , * from Sushiswap 
+  UNION
+  select 'Velodrome' platform , * from Velodrome
+) 
+select pool , num_swaps , num_swappers ,usd_volume
+from all_ 
+where platform = ${OptimismSwapPlatFormParam}
+order by num_swaps desc limit 10 
 `
- }
+}
 }
