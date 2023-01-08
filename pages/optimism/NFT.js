@@ -385,8 +385,8 @@ const Dashboard = () => {
                 <Card.Body className="ps-12">
                   <div>
                     <Container>
-                      <div className="chart-dropshadow2 ht-350">
-                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2 ht-350 chartjs-render-monitor" height='120'/>
+                      <div className="chart-dropshadow2 ">
+                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2  chartjs-render-monitor pb-2 ht-350" />
                         {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
                       </div>
                     </Container>

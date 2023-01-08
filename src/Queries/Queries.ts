@@ -611,7 +611,7 @@ sum (price_usd) as Total_USD_Volume
 from optimism.core.ez_nft_sales t1 join nfts t2 on t1.nft_address = t2.address
 where origin_from_address != seller_address -- Secondary
 and price_usd > 0
-and block_timestamp::date >= current_date - ${TimeSpan}
+and BLOCK_TIMESTAMP ::date >= CURRENT_DATE - ${TimeSpan}
 group by 1 order by Total_USD_Volume desc limit 5
 `
 },
