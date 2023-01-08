@@ -471,7 +471,7 @@ sum (PRICE_USD) sales_volume_usd,
 count (DISTINCT TX_HASH ) num_sales,
 count (DISTINCT SELLER_ADDRESS) num_sellers,
 count (DISTINCT BUYER_ADDRESS ) num_purchasers,
-count (DISTINCT ORIGIN_TO_ADDRESS) num_collections ,
+count (DISTINCT nft_address) num_collections ,
 round (avg(PRICE_USD)) avg_price_usd
 from optimism.core.ez_nft_sales
   where BLOCK_TIMESTAMP>= CURRENT_DATE - ${TimeSpan} `,
@@ -613,6 +613,60 @@ where origin_from_address != seller_address -- Secondary
 and price_usd > 0
 and BLOCK_TIMESTAMP ::date >= CURRENT_DATE - ${TimeSpan}
 group by 1 order by Total_USD_Volume desc limit 5
+`,
+DisSellersbypriceinETH :`
+with ETH_price as (
+  select date_trunc(day,HOUR ) date , 
+  avg(price) ETHprice 
+  from ethereum.core.fact_hourly_token_prices
+  where SYMBOL = 'WETH'
+  and date_trunc(day,HOUR )::date >= CURRENT_DATE - ${TimeSpan}
+  group by 1 
+),
+prices as (
+  select date_trunc(day,HOUR ) date ,
+  SYMBOL,
+  TOKEN_ADDRESS,
+  avg(price) Token_price 
+  from ethereum.core.fact_hourly_token_prices
+  where SYMBOL not in ( 'WETH' , 'ETH' , 'stETH' )
+  and date_trunc(day,HOUR )::date >= CURRENT_DATE - ${TimeSpan}
+  group by 1,2 ,3 
+),
+prices_peer_eth as (
+  select date , 
+  SYMBOL , 
+  TOKEN_ADDRESS ,
+  Token_price /ETHprice price_peer_ETH 
+  from prices join ETH_price using (date ) 
+),
+sales as (
+  select BLOCK_TIMESTAMP ::date date , 
+  case when CURRENCY_SYMBOL in ('WETH' , 'ETH' , 'stETH') then PRICE 
+  else (PRICE*price_peer_ETH)
+  end price_ETH,
+  PRICE_USD , 
+  TX_HASH , 
+  BUYER_ADDRESS , 
+  SELLER_ADDRESS 
+  from ethereum.core.ez_nft_sales join prices_peer_eth on BLOCK_TIMESTAMP ::date = date and TOKEN_ADDRESS = CURRENCY_ADDRESS 
+  -- where PRICE is not NULL
+  WHERE price_usd is not NULL 
+  and BLOCK_TIMESTAMP ::date >= CURRENT_DATE - ${TimeSpan}
+)
+select CASE WHEN price_usd < 1 THEN 'Less Than $1'
+WHEN price_usd BETWEEN 1 and   10 THEN '$1 - $10'
+WHEN price_usd BETWEEN 10 and   50 THEN '$10 - $50'
+  WHEN price_usd BETWEEN 50 and   100 THEN '$50 - $100'
+  WHEN price_usd BETWEEN 100 and   250 THEN '$100 - $250'
+  WHEN price_usd BETWEEN 250 and   500 THEN '$250 - $500'
+  WHEN price_usd BETWEEN 500 and   1000 THEN '$500 - $1K'
+  WHEN price_usd BETWEEN 500 and   1000 THEN '$1K - $2K'
+else  'More Than $2K' 
+end  range, 
+count (DISTINCT SELLER_ADDRESS ) num_sellers 
+from sales
+group by 1 order by num_sellers desc 
 `
 },
 

@@ -56,6 +56,7 @@ const options = {
         },
     },
     responsive: true,
+    height:'100',
     interaction: {
         mode: 'index' as const,
         intersect: false,
@@ -66,6 +67,7 @@ const options = {
         },
         y: {
             stacked: true,
+            
         },
     },
 };
@@ -78,13 +80,9 @@ interface Props {
     QueryResult: FlipsideResponse
 }
 export default function DailyNumPurchasersByPrice({ className, height, CurrentTimeSpan ,QueryResult }: Props) {
-    const [FilteredTimespan, setFilteredTimespan] = useState<TimeSpanDataType>("Last 6 months")
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DailyNumSalesbyPrice, FilteredTimespan));
-    console.log("DailyNumPurchasersByPrice",Result)
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DailyNumSalesbyPrice, "Last 6 months"));
     //@ts-ignore
     const chartdatatemp = useGroupedChartData(0, 2, 1, Result.QueryResult, VerticalSettings2.datasets);
-
-
     return (
         <>
         {Result.Loading ? <SpinnerLoader height={height} className={className} /> :

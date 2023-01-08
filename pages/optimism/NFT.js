@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import OPPriceComp from '../../src/components/OPCharts/OPpriceComp.tsx'
 import DistributionProtocols from '../../src/components/OPCharts/DistributionProtocols.tsx'
 import {Ethereumexchange,ethereumexchange} from '../../shared/data/crypto-currencies/currencyexchange'
+
 // const Dropdown = dynamic(import('react-bootstrap/Dropdown').then(mod => mod.Dropdown), { ssr: false })
 //@ts-ignore
 const DropdownToggle = dynamic(import('react-bootstrap/Dropdown').then(mod => mod.DropdownToggle), { ssr: false })
@@ -55,7 +56,9 @@ import NumTransacrionsonWeekDays from '../../src/components/OPCharts/NumTransacr
 import PerformanceOverTime from '../../src/components/OPCharts/PerformanceOverTime';
 import SalesDistributionByPriceComp from '../../src/components/OPCharts/NFT/SalesDistributionByPriceComp';
 import DailyNumNFTSales from '../../src/components/OPCharts/NFT/DailyNumNFTSales'
-import DailyNumPurchasersByPrice from '../../src/components/OPCharts/NFT/DailyNumPurchasersByPrice'
+import DailyNumPurchasersByPrice from '../../src/components/OPCharts/NFT/DailyNumPurchasersByPrice';
+import TopCollectionsByVolume from '../../src/components/OPCharts/NFT/TopCollectionsByVolume';
+import DisNFTSELLERSbypriceinETHcomp from '../../src/components/OPCharts/NFT/DisNFTSELLERSbypriceinETHcomp';
 const ReactApexChart = dynamic(()=>import('react-apexcharts'), { ssr: false })
 const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
@@ -378,17 +381,18 @@ const Dashboard = () => {
                       NFT sales by price over time 
                     </label>
                     <span className="d-block tx-12 mb-0 text-muted">
-                      The follwing chart shows NFT sales and sellers and purchasers over time in the Last 6 months
+                      The follwing chart shows NFT sales by price over time over time in the Last 6 months
                     </span>
                   </div>
                 </Card.Header>
                 <Card.Body className="ps-12">
                   <div>
                     <Container>
-                      <div className="chart-dropshadow2 ">
-                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2  chartjs-render-monitor pb-2 ht-350" />
-                        {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
+                      <div className="chart-dropshadow2 ht-350 ">
+                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2  chartjs-render-monitor  ht-300" />
+                       
                       </div>
+                      <div className='pb-2'></div>
                     </Container>
                   </div>
                 </Card.Body>
@@ -396,7 +400,7 @@ const Dashboard = () => {
             </Col>
             
             {/* <!-- col end --> */}
-            <Col sm={12} md={6} lg={6} xl={6}>
+            {/* <Col sm={12} md={6} lg={6} xl={6}>
               <Card className="custom-card overflow-hidden pb-1">
                 <Card.Header className="border-bottom-0 pb-10">
                   <div>
@@ -414,9 +418,9 @@ const Dashboard = () => {
                 <ActiveUsersOnWeekdays CurrentTimeSpan={CurrentTimeSpan} />
               
                 </Card.Body>
-                  {/* <div className='mb-4'></div> */}
               </Card>
             </Col>
+
              <Col sm={12} md={6} lg={6} xl={6}>
               <Card className="custom-card overflow-hidden pb-1">
                 <Card.Header className="border-bottom-0 pb-0">
@@ -435,9 +439,9 @@ const Dashboard = () => {
                 <NumTransacrionsonWeekDays CurrentTimeSpan={CurrentTimeSpan} />
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
             {/* <!-- col end --> */}
-             <Col sm={12} lg={12} xl={12}>
+             {/* <Col sm={12} lg={12} xl={12}>
               <Card className="custom-card  overflow-hidden">
                 <Card.Header className="border-bottom-0">
                   <div>
@@ -454,7 +458,6 @@ const Dashboard = () => {
                     <Container>
                       <div className="chart-dropshadow2 ht-300">
                       <PerformanceOverTime CurrentTimeSpan={CurrentTimeSpan}  options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100"/>
-                        {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
                       </div>
                       <div className='pb-4'></div>
                       <div className='pb-2'></div>
@@ -463,7 +466,7 @@ const Dashboard = () => {
                   </div>
                 </Card.Body>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
 							{/* <!-- Row end --> */}
 						</div>
@@ -481,241 +484,40 @@ const Dashboard = () => {
 									<div className="row row-sm">
 										<div className="col-12">
 											<div className="card-item-title">
-                      	 <label className="main-content-label tx-13 font-weight-bold mb-2">The Distribution of users</label>
-                          <span className="d-block tx-12 mt-0 mb-0 text-muted">
-                            The Distribution of users based on The number of transactions in the {CurrentTimeSpan}
+                      	 <label className="main-content-label tx-13 font-weight-bold  ">Top 5 Collections ( by volume ) </label>
+                          <span className="d-block tx-12 mt-0 mb-3 text-muted">
+                            Top Collections based on traded volume in the {CurrentTimeSpan}
                           </span>
-                      <UsersDistributionByNumTransactions  CurrentTimeSpan={CurrentTimeSpan}/>
-												{/* <label className="main-content-label tx-13 font-weight-bold mb-2">Project
-													Launch</label>
-												<span className="d-block tx-12 mb-0 text-muted">the project is going to
-													launch</span> */}
+                          <div className='ht-300'>
+                            <TopCollectionsByVolume  CurrentTimeSpan={CurrentTimeSpan}/>
+                          </div>
 											</div>
-											{/* <p className="mb-0 tx-24 mt-2"><b className="text-primary">145 days</b></p>
-											<a href="#!" className="text-muted">12 Monday, Oct 2020 </a> */}
 										</div>
-										{/* <div className="col-6">
-											<img src={work.src} alt="image" className="best-emp"/>
-										</div> */}
 									</div>
 								</div>
 							</div>
-                {/* <Col xl={4} md={12} lg={6}> */}
-            <Card className="custom-card crypto-card overflow-hidden">
-            
-              <Card.Body  className="card-body ">
-               <div className="mb-3 ">
-                  <h5 className=" mb-0 pb-0">
-                   Successful Transactions 
-                  </h5>
-                  <span className=" tx-12 mt-0 mb-1 text-muted">{`Success Transactions percentage in the `+CurrentTimeSpan}</span>
-                </div>
-              <TotalSuccessRateTransactions CurrentTimeSpan={CurrentTimeSpan} />
-              </Card.Body>
-            </Card>
+               
         
-							{/* <Card className=" custom-card">
-            <Card.Header className="border-bottom-0 pb-0 d-flex ps-3 ms-1">
-              <div>
-                <label className="main-content-label mb-2 pt-2">
-                  On goiong projects
-                </label>
-                <span className="d-block tx-12 mb-2 text-muted">
-                  Projects where development work is on completion
-                </span>
-              </div>
-            </Card.Header>
-            <Card.Body className="pt-2 mt-0">
-              <div className="list-card">
-                <div className="d-flex">
-                  <div className="demo-avatar-group my-auto float-end">
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user1.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user2.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user3.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user4.src}
-                      />
-                    </div>
-                    <div className="ms-2">Design team</div>
-                  </div>
-                  <div className="ms-auto float-end">
-                    <Dropdown className="GOIONGPROJECTS">
-                      <DropdownToggle variant="default" className="option-dots">
-                        <i className="fe fe-more-horizontal"></i>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className=" dropdown-menu-end"
-                        style={{ margin: "0px" }}
-                      >
-                        <DropdownItem href="#">Today</DropdownItem>
-                        <DropdownItem href="#">Last Week</DropdownItem>
-                        <DropdownItem href="#">Last Month</DropdownItem>
-                        <DropdownItem href="#">Last Year</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-                <div className="card-item mt-4">
-                  <div className="card-item-icon bg-transparent card-icon">
-                    <CircularProgress
-                      variant="determinate"
-                      value={85}
-                      className="peity-donut"
-                      data-peity='{ "fill": ["#6259ca", "rgba(204, 204, 204,0.3)"], "innerRadius": 15, "radius": 20}'
-                      style={{ color: "#6259ca" }}
-                    />
-                  </div>
-                  <div className="card-item-body">
-                    <div className="card-item-stat">
-                      <small className="tx-10 text-primary font-weight-semibold">
-                        25 August 2020
-                      </small>
-                      <h6 className=" mt-2">Mobile app design</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="list-card mb-0">
-                <div className="d-flex">
-                  <div className="demo-avatar-group my-auto float-end">
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user5.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user6.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user7.src}
-                      />
-                    </div>
-                    <div className="main-img-user avatar-xs">
-                      <img
-                        alt="avatar"
-                        className="rounded-circle"
-                        src={user8.src}
-                      />
-                    </div>
-                    <div className="ms-2">Design team</div>
-                  </div>
-                  <div className="ms-auto float-end">
-                    <Dropdown className="Designteam">
-                      <DropdownToggle variant="default" className="option-dots">
-                        <i className="fe fe-more-horizontal"></i>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        className=" dropdown-menu-end"
-                        style={{ margin: "0px" }}
-                      >
-                        <DropdownItem href="#">Today</DropdownItem>
-                        <DropdownItem href="#">Last Week</DropdownItem>
-                        <DropdownItem href="#">Last Month</DropdownItem>
-                        <DropdownItem href="#">Last Year</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-                <div className="card-item mt-4">
-                  <div className="card-item-icon bg-transparent card-icon">
-                    <CircularProgress
-                      variant="determinate"
-                      value={75}
-                      className="peity-donut"
-                      data-peity='{ "fill": ["#6259ca", "rgba(204, 204, 204,0.3)"], "innerRadius": 15, "radius": 20}'
-                      style={{ color: "#6259ca" }}
-                    />
-                  </div>
-                  <div className="card-item-body">
-                    <div className="card-item-stat">
-                      <small className="tx-10 text-primary font-weight-semibold">
-                        12 JUNE 2020
-                      </small>
-                      <h6 className=" mt-2">Website Redesign</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card.Body>
-          </Card> */}
+					
 		  <Card className="custom-card">
             <Card.Body>
               <div className="d-flex">
                 <label className="main-content-label my-auto">
-                 Transaction Label Types
+                  NFT Sellers ( by price in ETH )
                 </label>
-                {/* <div className="ms-auto  d-flex">
-                  <div className="me-3 d-flex text-muted tx-13">Running</div>
-                </div> */}
               </div>
               <div className="mt-2">
                 <div>
                   <span className="tx-11 text-muted">
-                    The Distribution of Transactions based on Label Type in the {CurrentTimeSpan}
+                    The Distribution of NFT Sellers based on NFT price in ETH in the {CurrentTimeSpan}
                   </span>
                 </div>
-                <div className="container mt-2 mb-2 ">
-                <DistributionProtocols CurrentTimeSpan={CurrentTimeSpan} />
+                <div className="container mt-2 mb-2 ht-300 justify-content-center align-items-center d-flex">
+                <DisNFTSELLERSbypriceinETHcomp CurrentTimeSpan={CurrentTimeSpan} />
                   {/* <Bar options={dashboardmain.Webdesgining} data={dashboardmain.webdesigning} className="line" /> */}
                 </div>
               </div>
-              {/* <Row className="row">
-                <Col className="col">
-                  <div className="mt-4">
-                    <div className="d-flex mb-2">
-                      <h5 className="tx-15 my-auto text-muted font-weight-normal">
-                        Client :
-                      </h5>
-                      <h5 className="tx-15 my-auto ms-3">John Deo</h5>
-                    </div>
-                    <div className="d-flex mb-0">
-                      <h5 className="tx-13 my-auto text-muted font-weight-normal">
-                        Deadline :
-                      </h5>
-                      <h5 className="tx-13 my-auto text-muted ms-2">
-                        25 Dec 2020
-                      </h5>
-                    </div>
-                  </div>
-                </Col>
-                <Col className=" col-auto">
-                  <div className="mt-3">
-                    <div>
-                      <img alt="logo" className="ht-50" src={projectlogo.src} />
-                    </div>
-                  </div>
-                </Col>
-              </Row> */}
+             
             </Card.Body>
           </Card>
 						</div>
