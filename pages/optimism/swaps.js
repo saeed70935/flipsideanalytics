@@ -129,8 +129,6 @@ const Dashboard = () => {
   const [SelectedDexSwappers,setSelectedDexSwappers] = useState(DEXPlatforms[1]);
   const TotalSwaps = useSingleNumber(Queries.Dex.TotalSwaps,1,CurrentTimeSpan);
   const SwapsOvertime = useFlipside(useQueryWithTimeSpan2(Queries.Dex.swapsOverTime,CurrentTimeSpan));
-  // const TopPairsQueryResult = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs,OptimismSwapPlatFormParam,SelectedDex),CurrentTimeSpan));
-  // console.log("TopPairsQueryResult",TopPairsQueryResult)
   useEffect(()=>{
     if(!TotalSwaps.Loading && TotalSwaps.QueryResult && TotalSwaps.QueryResult.length >0 ){
       let temp = CryptoCurrencies;

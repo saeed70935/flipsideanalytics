@@ -591,6 +591,28 @@ count (DISTINCT SELLER_ADDRESS ) num_sellers ,
 sum (num_sales) over (partition by  range order by daily) cum_sales  
 from sales 
 group by 1,2 order by daily
+`,
+Top5CollectionsbyVolume :`
+with nfts as (
+select address,
+address_name as nft_collection
+from optimism.core.dim_labels
+
+union ALL
+select column1 as address,
+column2 as NFT_Collection
+FROM (VALUES
+('0x0110bb5739a6f82eafc748418e572fc67d854a0f','Early Optimists'),
+('0xfa14e1157f35e1dad95dc3f822a9d18c40e360e2','Optimism Quest'),
+('0xac3b9b3f5956b52c448158c0a07ddfa9d5c53a3b','OP Delegatooors')))
+
+select nft_collection,
+sum (price_usd) as Total_USD_Volume
+from optimism.core.ez_nft_sales t1 join nfts t2 on t1.nft_address = t2.address
+where origin_from_address != seller_address -- Secondary
+and price_usd > 0
+and block_timestamp::date >= current_date - ${TimeSpan}
+group by 1 order by Total_USD_Volume desc limit 5
 `
 },
 

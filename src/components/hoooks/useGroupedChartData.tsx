@@ -39,7 +39,7 @@ export function useGroupedChartData(horizontalIndex: number, VerticalIndex: numb
         let tempVertical: GroupedVerticalChartItem[] = [];
         let tempHorizontal: HorizontalItemData[] = [];
         let groupddata:{label:string,value:number[]}[]=[];
-        if(Data.length>0  ){
+        if (Data && Data.length>0  ){
             Data[GroupedIndex].value && Data[GroupedIndex].value.map((item,index)=>{
             let existed= false;
             groupddata.map((grouped)=>{

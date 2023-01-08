@@ -120,33 +120,11 @@ interface Props {
     QueryResult: FlipsideResponse
 }
 export default function DailyNumSwapsComp({ className, height, CurrentTimeSpan ,QueryResult }: Props) {
-    // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DistributionByNumTransactions, CurrentTimeSpan)
-    const chartdatatemp = useGroupedChartData(1, 2, 0, QueryResult.QueryResult, VerticalSettings2.datasets);
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.Dex.TotalSwapsBasedOnDex, CurrentTimeSpan));
     //@ts-ignore
-    const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
-    const [TotalSWapsData, setTotalSwapsData] = useState<verticalChartData[]>([]);
-    const [TotalSWappersData, setTotalSWappersData] = useState<verticalChartData[]>([]);
-    const [NumPools, setNumPools] = useState<verticalChartData[]>([]);
-    useEffect(() => {
-
-        if (Result.Success && ChartData.vertical.length > 0) {
-            let tempSWapsData: verticalChartData[] = [];
-            let tempTotalSWappersData: verticalChartData[] = [];
-            let tempNumPools: verticalChartData[] = [];
-            tempSWapsData.push(ChartData.vertical[0]);
-            tempTotalSWappersData.push(ChartData.vertical[1])
-            tempNumPools.push(ChartData.vertical[6])
-            setTotalSwapsData(R.clone(tempSWapsData))
-            setTotalSWappersData(R.clone(tempTotalSWappersData))
-            setNumPools(R.clone(tempNumPools))
-        }
-
-    }, [Result.Success, ChartData.vertical])
-
+    const chartdatatemp = useGroupedChartData(1, 2, 0, QueryResult.QueryResult, VerticalSettings2.datasets);
     return (
         <>
-        {Result.Loading ? <SpinnerLoader height={height} className={className} /> :
+            {QueryResult.Loading ? <SpinnerLoader height={height} className={className} /> :
             <Bar
                 //@ts-ignore   
                     options={options}

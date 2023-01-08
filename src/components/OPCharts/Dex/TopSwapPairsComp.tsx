@@ -96,7 +96,6 @@ function DropDownPlatform({ DropDownData, onSelecteItem, SelectedPlatform }) {
 export default function TopSwapPairsComp({ className, height, QueryResult, VerticalIndex, HorizontalIndex, CurrentTimeSpan, onSelectedDex, SelectedDex, SelectedDexSwappers ,onSelectedDexSwappers}: Props) {
     const TopPairsQueryResult = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs, OptimismSwapPlatFormParam, SelectedDex), CurrentTimeSpan));
     const TopPairsQueryResultSwappers = useFlipside(useQueryWithTimeSpan2(useQueryWithReplacedString(Queries.Dex.Top_10_pairs_swappers, OptimismSwapPlatFormParam, SelectedDexSwappers), CurrentTimeSpan));
-    console.log("TopPairsQueryResult", TopPairsQueryResult)
     const ChartData = useChartData(0, TopPairsQueryResult.QueryResult, VerticalSettings);
     const ChartDataSwappers = useChartData(0, TopPairsQueryResultSwappers.QueryResult, VerticalSettingsSwappers);
     const [SelectedVertical, setSelectedVertical] = useState<verticalChartData[]>([]);

@@ -55,6 +55,7 @@ import NumTransacrionsonWeekDays from '../../src/components/OPCharts/NumTransacr
 import PerformanceOverTime from '../../src/components/OPCharts/PerformanceOverTime';
 import SalesDistributionByPriceComp from '../../src/components/OPCharts/NFT/SalesDistributionByPriceComp';
 import DailyNumNFTSales from '../../src/components/OPCharts/NFT/DailyNumNFTSales'
+import DailyNumPurchasersByPrice from '../../src/components/OPCharts/NFT/DailyNumPurchasersByPrice'
 const ReactApexChart = dynamic(()=>import('react-apexcharts'), { ssr: false })
 const Dashboard = () => {
   const [CurrentTimeSpan, setCurrentTimeSpan] = useState("Last 7 days");
@@ -65,7 +66,6 @@ const Dashboard = () => {
   const [NUM_COLLECTIONS,setNUM_COLLECTIONS] = useState(0);
   const [AVG_PRICE_USD,setAVG_PRICE_USD] = useState(0);
   const Total_Numbers = useSingleNumber(Queries.NFT.Total,1,CurrentTimeSpan);
-  console.log("Total_Numbers",Total_Numbers)
   useEffect(()=>{
     if(Total_Numbers.Success){
       setNUM_SALES(convertToInternationalCurrencySystem( Total_Numbers.QueryResult[1].value[0]))
@@ -74,9 +74,6 @@ const Dashboard = () => {
       setNUM_SELLERS(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[2].value[0]))
       setNUM_COLLECTIONS(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[4].value[0]))
       setAVG_PRICE_USD(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[5].value[0]))
-      // setTOTAL_USD_FEE(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[7].value[0]))
-      // setAVERAGE_USD_FEE(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[8].value[0]))
-      // setAVERAGE_USD_FEE(convertToInternationalCurrencySystem(Total_Numbers.QueryResult[8].value[0]))
     }
   },[Total_Numbers])
   const TASKS = [
@@ -353,10 +350,10 @@ const Dashboard = () => {
                 <Card.Header className="border-bottom-0">
                   <div>
                     <label className="main-content-label mb-2">
-                      NFT sales
+                      NFT sales over time 
                     </label>
                     <span className="d-block tx-12 mb-0 text-muted">
-                      The follwing chart shows Daily number of Transactions and Number of Active users in the {CurrentTimeSpan}
+                      The follwing chart shows NFT sales and sellers and purchasers over time in the {CurrentTimeSpan}
                     </span>
                   </div>
                 </Card.Header>
@@ -365,6 +362,31 @@ const Dashboard = () => {
                     <Container>
                       <div className="chart-dropshadow2 ht-300">
                       <DailyNumNFTSales CurrentTimeSpan={CurrentTimeSpan}  options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100"/>
+                        {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
+                      </div>
+                    </Container>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col sm={12} lg={12} xl={12}>
+              <Card className="custom-card  overflow-hidden">
+                <Card.Header className="border-bottom-0">
+                  <div>
+                    <label className="main-content-label mb-2">
+                      NFT sales by price over time 
+                    </label>
+                    <span className="d-block tx-12 mb-0 text-muted">
+                      The follwing chart shows NFT sales and sellers and purchasers over time in the Last 6 months
+                    </span>
+                  </div>
+                </Card.Header>
+                <Card.Body className="ps-12">
+                  <div>
+                    <Container>
+                      <div className="chart-dropshadow2 ht-350">
+                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2 ht-350 chartjs-render-monitor" height='120'/>
                         {/* <Line options={dashboardmain.linechartoptions} data={dashboardmain.linechart} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100" /> */}
                       </div>
                     </Container>
