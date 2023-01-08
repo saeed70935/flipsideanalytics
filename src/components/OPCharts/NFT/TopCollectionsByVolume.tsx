@@ -54,7 +54,7 @@ interface Props {
 }
 export default function TopCollectionsByVolume({ className, options, height, CurrentTimeSpan }: Props) {
     const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.Top5CollectionsbyVolume, CurrentTimeSpan));
-    console.log("dwwdwd", Result)
+    //@ts-ignore
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
     return (
         <>

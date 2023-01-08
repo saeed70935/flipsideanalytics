@@ -46,6 +46,7 @@ const VerticalSettings2 = {
     ],
 };
 const options = {
+    maintainAspectRatio: false,
     plugins: {
         // title: {
         //     display: false,
@@ -56,7 +57,7 @@ const options = {
         },
     },
     responsive: true,
-    height:'100',
+    // height:'100',
     interaction: {
         mode: 'index' as const,
         intersect: false,

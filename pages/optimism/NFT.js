@@ -389,7 +389,7 @@ const Dashboard = () => {
                   <div>
                     <Container>
                       <div className="chart-dropshadow2 ht-350 ">
-                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2  chartjs-render-monitor  ht-300" />
+                      <DailyNumPurchasersByPrice CurrentTimeSpan={CurrentTimeSpan}  className="barchart chart-dropshadow2  chartjs-render-monitor  ht-350" />
                        
                       </div>
                       <div className='pb-2'></div>
@@ -398,88 +398,21 @@ const Dashboard = () => {
                 </Card.Body>
               </Card>
             </Col>
-            
-            {/* <!-- col end --> */}
-            {/* <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card overflow-hidden pb-1">
-                <Card.Header className="border-bottom-0 pb-10">
-                  <div>
-                    <div className="d-md-flex">
-                      <label className="main-content-label my-auto pt-2">
-                        Number of Active Users on Weekdays
-                      </label>
-                    </div>
-                    <span className="d-block tx-12 mt-2 mb-0 text-muted">
-                      Number of Active Users on Weekdays in the {CurrentTimeSpan}
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body className="py-0">
-                <ActiveUsersOnWeekdays CurrentTimeSpan={CurrentTimeSpan} />
-              
-                </Card.Body>
-              </Card>
-            </Col>
-
-             <Col sm={12} md={6} lg={6} xl={6}>
-              <Card className="custom-card overflow-hidden pb-1">
-                <Card.Header className="border-bottom-0 pb-0">
-                  <div>
-                    <div className="d-md-flex">
-                      <label className="main-content-label my-auto pt-2">
-                        The Number of Transactions on Weekdays
-                      </label>
-                    </div>
-                    <span className="d-block tx-12 mt-2 mb-0 text-muted">
-                      The Number of Transactions on Weekdays in the {CurrentTimeSpan}
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body className="py-0">
-                <NumTransacrionsonWeekDays CurrentTimeSpan={CurrentTimeSpan} />
-                </Card.Body>
-              </Card>
-            </Col> */}
-            {/* <!-- col end --> */}
-             {/* <Col sm={12} lg={12} xl={12}>
-              <Card className="custom-card  overflow-hidden">
-                <Card.Header className="border-bottom-0">
-                  <div>
-                    <label className="main-content-label mb-2">
-                      OpTimism Chain Performance
-                    </label>
-                    <span className="d-block tx-12 mb-0 text-muted">
-                      The follwing chart shows Daily TPS and Failure rate transactions in the {CurrentTimeSpan}
-                    </span>
-                  </div>
-                </Card.Header>
-                <Card.Body className="ps-12  ">
-                  <div>
-                    <Container>
-                      <div className="chart-dropshadow2 ht-300">
-                      <PerformanceOverTime CurrentTimeSpan={CurrentTimeSpan}  options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-300 chartjs-render-monitor" height="100"/>
-                      </div>
-                      <div className='pb-4'></div>
-                      <div className='pb-2'></div>
-                      <div className='pb-1'></div>
-                    </Container>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col> */}
+           
           </Row>
 							{/* <!-- Row end --> */}
 						</div>
 						{/* <!-- col end --> */}
 						<div className="col-sm-12 col-lg-12 col-xl-4 mt-xl-4">
-							<div className="card custom-card card-dashboard-calendar pb-4 ht-350 ">
+							<div className="card custom-card crypto-card card-dashboard-calendar pb-2  ">
 								<label className="main-content-label mb-2 pt-1">Sales Distribution</label>
 								<span className="d-block tx-12 mb-2 text-muted">NFT sales Distribution by sale price range in the {CurrentTimeSpan}</span>
-                 {/* <OPPriceComp CurrentTimeSpan={CurrentTimeSpan} options={dashboardmain.linechartoptions} className="barchart chart-dropshadow2 ht-200 chartjs-render-monitor" height="100"/> */}
-                 <SalesDistributionByPriceComp className='ht-350'  CurrentTimeSpan={CurrentTimeSpan}/>
+									<div className='ht-300'>
+                 					<SalesDistributionByPriceComp   CurrentTimeSpan={CurrentTimeSpan}/>
+									</div>
 								
 							</div>
-							<div className="card custom-card">
+							<div className="card custom-card crypto-card">
 								<div className="card-body">
 									<div className="row row-sm">
 										<div className="col-12">
@@ -497,29 +430,15 @@ const Dashboard = () => {
 								</div>
 							</div>
                
-        
-					
-		  <Card className="custom-card">
-            <Card.Body>
-              <div className="d-flex">
-                <label className="main-content-label my-auto">
-                  NFT Sellers ( by price in ETH )
-                </label>
-              </div>
-              <div className="mt-2">
-                <div>
-                  <span className="tx-11 text-muted">
-                    The Distribution of NFT Sellers based on NFT price in ETH in the {CurrentTimeSpan}
-                  </span>
-                </div>
-                <div className="container mt-2 mb-2 ht-300 justify-content-center align-items-center d-flex">
-                <DisNFTSELLERSbypriceinETHcomp CurrentTimeSpan={CurrentTimeSpan} />
-                  {/* <Bar options={dashboardmain.Webdesgining} data={dashboardmain.webdesigning} className="line" /> */}
-                </div>
-              </div>
-             
-            </Card.Body>
-          </Card>
+        					<div className="card crypto-card custom-card card-dashboard-calendar pb-4 ">
+								<label className="main-content-label mb-2 pt-1">NFT Sellers ( by price in ETH )</label>
+								<span className="d-block tx-12 mb-2 text-muted">The Distribution of NFT Sellers based on NFT price in ETH in the {CurrentTimeSpan}</span>
+                 					<div className='ht-300 '>
+										<DisNFTSELLERSbypriceinETHcomp CurrentTimeSpan={CurrentTimeSpan} />
+									</div>
+									{/* <div className='pb-2'/>
+									<div className='pb-2'/> */}
+							</div>
 						</div>
 						{/* <!-- col end --> */}
 					</div>

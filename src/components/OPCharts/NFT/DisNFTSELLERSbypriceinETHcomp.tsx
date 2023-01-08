@@ -45,12 +45,12 @@ const option = {
         {
             name: 'Sales Distribution',
             type: 'pie',
-            radius: [20, 80],
+            radius: [40, 80],
             center: ['50%', '50%'],
             // roseType: 'markArea',
-            height:"270",
+            // height:"270",
             // roseType: 'area',
-            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997","#f1388b"],
+            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997", "#f1388b", "#28a745"],
             label: {
                 // color: "white"
             },
@@ -74,6 +74,7 @@ const option = {
 };
 export default function DisNFTSELLERSbypriceinETHcomp({ className, options, height, CurrentTimeSpan }: Props) {
     const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DisSellersbypriceinETH, CurrentTimeSpan));
+    console.log("Result", Result)
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     useEffect(() => {
 
@@ -85,7 +86,6 @@ export default function DisNFTSELLERSbypriceinETHcomp({ className, options, heig
                 TempData.push({ name: item[0], value: item[1] })
             })
             Temp.series[0].data = R.clone(TempData);
-            // Temp.data.unload = true;
             setPolarChart(R.clone(Temp))
         }
 
@@ -93,10 +93,10 @@ export default function DisNFTSELLERSbypriceinETHcomp({ className, options, heig
     return (
         <>
             {Result.Loading ? <SpinnerLoader height={height} className={className} /> :
-                <div  >
+                <div className={className}  >
                     <ReactEcharts theme="dark" lazyUpdate className="chartsh" option={PolarChart}
                         //@ts-ignore
-                        series={PolarChart.series} />
+                        series={PolarChart.series} height={height}/>
                 </div>
             }
         </>
