@@ -464,5 +464,134 @@ from all_
 where platform = ${OptimismSwapPlatFormParam}
 order by num_swappers desc limit 10 
 `
-}
+},
+NFT :{
+  Total:`select 
+sum (PRICE_USD) sales_volume_usd,
+count (DISTINCT TX_HASH ) num_sales,
+count (DISTINCT SELLER_ADDRESS) num_sellers,
+count (DISTINCT BUYER_ADDRESS ) num_purchasers,
+count (DISTINCT ORIGIN_TO_ADDRESS) num_collections ,
+round (avg(PRICE_USD)) avg_price_usd
+from optimism.core.ez_nft_sales
+  where BLOCK_TIMESTAMP>= CURRENT_DATE - ${TimeSpan} `,
+
+  SalesDistributionByPrice :`
+with ETH_price as (
+  select date_trunc(day,HOUR ) date , 
+  avg(price) ETHprice 
+  from ethereum.core.fact_hourly_token_prices
+  where SYMBOL = 'WETH'
+  and date_trunc(day,HOUR ) >= CURRENT_DATE - ${TimeSpan}
+  group by 1 
+),
+prices as (
+  select date_trunc(day,HOUR ) date ,
+  SYMBOL,
+  TOKEN_ADDRESS,
+  avg(price) Token_price 
+  from ethereum.core.fact_hourly_token_prices
+  where SYMBOL not in ( 'WETH' , 'ETH' , 'stETH' )
+   and  date_trunc(day,HOUR ) >= CURRENT_DATE - ${TimeSpan} 
+  group by 1,2 ,3 
+),
+prices_peer_eth as (
+  select date , 
+  SYMBOL , 
+  TOKEN_ADDRESS ,
+  Token_price /ETHprice price_peer_ETH 
+  from prices join ETH_price using (date ) 
+),
+sales as (
+  select BLOCK_TIMESTAMP ::date date , 
+  case when CURRENCY_SYMBOL in ('WETH' , 'ETH' , 'stETH') then PRICE 
+  else (PRICE*price_peer_ETH)
+  end price_ETH,
+  PRICE_USD , 
+  TX_HASH , 
+  BUYER_ADDRESS , 
+  SELLER_ADDRESS 
+  from ethereum.core.ez_nft_sales join prices_peer_eth on BLOCK_TIMESTAMP ::date = date and TOKEN_ADDRESS = CURRENCY_ADDRESS 
+  -- where PRICE is not NULL
+  WHERE price_usd is not NULL 
+  and BLOCK_TIMESTAMP ::date >= CURRENT_DATE - ${TimeSpan}
+)
+select CASE WHEN price_usd < 1 THEN 'Less Than $1'
+WHEN price_usd BETWEEN 1 and   10 THEN '$1 - $10'
+WHEN price_usd BETWEEN 10 and   50 THEN '$10 - $50'
+  WHEN price_usd BETWEEN 50 and   100 THEN '$50 - $100'
+  WHEN price_usd BETWEEN 100 and   250 THEN '$100 - $250'
+  WHEN price_usd BETWEEN 250 and   500 THEN '$250 - $500'
+  WHEN price_usd BETWEEN 500 and   1000 THEN '$500 - $1K'
+  WHEN price_usd BETWEEN 500 and   1000 THEN '$1K - $2K'
+else  'More Than $2K' 
+end  range,
+count (distinct TX_HASH)  num_sales,
+  count (DISTINCT BUYER_ADDRESS ) num_buyers , 
+count (DISTINCT SELLER_ADDRESS ) num_sellers 
+from sales
+group by 1 order by num_sales desc
+`,
+DailyNumSales:`select BLOCK_TIMESTAMP::date date , 
+count (DISTINCT TX_HASH) num_sales,
+count (DISTINCT BUYER_ADDRESS) num_purchasers,
+count ( DISTINCT SELLER_ADDRESS) num_sellers
+from optimism.core.ez_nft_sales
+  where BLOCK_TIMESTAMP::date >= CURRENT_DATE - ${TimeSpan}
+  group by 1 order by date`,
+DailyNumSalesbyPrice :`
+with OP_price  as (
+select date_trunc(day,hour) ::date  date ,
+avg (price)  price 
+from optimism.core.fact_hourly_token_prices
+WHERE SYMBOL =  'OP'
+  and date_trunc(day,hour) ::date >= CURRENT_DATE - ${TimeSpan}
+group by date
+),
+ETH_price  as (
+select date_trunc(day,hour) ::date  date,
+avg (price)  price
+from ethereum.core.fact_hourly_token_prices
+where SYMBOL = 'WETH'
+  and date_trunc(day,hour) ::date >= CURRENT_DATE - ${TimeSpan}
+GROUP BY date
+),
+OP_PEER_ETH as (
+select date,
+OP.price/ETH.price  price 
+from OP_price OP join ETH_price ETH using (date )
+order by 1
+),
+sales  as (
+select 
+BLOCK_TIMESTAMP::date date ,
+BUYER_ADDRESS,
+TX_HASH,
+SELLER_ADDRESS,
+CASE 
+  WHEN currency_symbol = 'OP' THEN (s.price*OP.price)  
+  WHEN currency_symbol = 'ETH' THEN s.price 
+  end Price_in_ETH
+from optimism.core.ez_nft_sales s join OP_PEER_ETH OP 
+  on BLOCK_TIMESTAMP::date = OP.date
+  where s.price is not NULL
+)
+select date_trunc(day,date) daily   ,
+  CASE WHEN Price_in_ETH < 0.01 THEN 'Less Than 0.01 $ETH'
+WHEN Price_in_ETH BETWEEN 0.01 and   0.1 THEN '0.01 - 0.1 $ETH'
+WHEN Price_in_ETH BETWEEN 0.1 and  0.5 THEN '0.1 - 0.5 $ETH'
+WHEN Price_in_ETH BETWEEN 0.5 and  1 THEN '0.5 - 1 $ETH'
+WHEN Price_in_ETH BETWEEN 1 and  2 THEN '1 - 2 $ETH'
+WHEN Price_in_ETH BETWEEN 2 and  3 THEN '2 - 3 $ETH'
+else  'More Than 3 $ETH' 
+end  range,
+count (distinct TX_HASH)  num_sales,
+  count (DISTINCT BUYER_ADDRESS ) num_buyers , 
+count (DISTINCT SELLER_ADDRESS ) num_sellers ,
+sum (num_sales) over (partition by  range order by daily) cum_sales  
+from sales 
+group by 1,2 order by daily
+`
+},
+
 }

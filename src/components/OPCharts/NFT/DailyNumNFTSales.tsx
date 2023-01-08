@@ -1,14 +1,12 @@
 
 import { ChartData, ChartOptions } from 'chart.js';
-import React, { useEffect, useState } from 'react';
 import { Bar, Line } from "react-chartjs-2";
-import { Queries } from '../../Queries/Queries';
-import { TimeSpanDataType } from '../../Queries/types';
-import { useChartData } from '../hoooks/useChartData';
-import { FlipsideResponse, FlipsideQueryResult, useFlipside } from '../hoooks/useflipside';
-import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
-import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
-import { SpinnerLoader } from '../Spinners/SpinnerLoader';
+import { Queries } from '../../../Queries/Queries';
+import { TimeSpanDataType } from '../../../Queries/types';
+import { useChartData } from '../../hoooks/useChartData';
+import { FlipsideResponse, FlipsideQueryResult, useFlipside } from '../../hoooks/useflipside';
+import useQueryWithTimeSpan2 from '../../hoooks/useQueryWithTimeSpan2';
+import { SpinnerLoader } from '../../Spinners/SpinnerLoader';
 const VerticalSettings = [{
     borderWidth: 3,
     backgroundColor: "transparent",
@@ -30,7 +28,19 @@ const VerticalSettings = [{
     fill: true,
     tension: 0.4,
     yAxisID: 'y1',
-}
+},
+    {
+
+        borderWidth: 3,
+        backgroundColor: "transparent",
+        borderColor: "rgba(255, 99, 132,0.9)",
+        pointBackgroundColor: "#ffffff",
+        pointRadius: 0,
+        borderDash: [8, 3],
+        fill: true,
+        tension: 0.4,
+        yAxisID: 'y1',
+    }
 
 ];
 export const linechartoptions = {
@@ -90,9 +100,9 @@ interface Props {
     height: string;
     CurrentTimeSpan: TimeSpanDataType
 }
-export default function DailyNumTransactionsAndActiveUsers({ className, options, height, CurrentTimeSpan }: Props) {
+export default function DailyNumNFTSales({ className, options, height, CurrentTimeSpan }: Props) {
     // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.DailynumtransactionsandActiveusers, CurrentTimeSpan)
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.DailynumtransactionsandActiveusers, CurrentTimeSpan));
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DailyNumSales, CurrentTimeSpan));
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
     return (
         <>

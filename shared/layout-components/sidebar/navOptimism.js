@@ -18,6 +18,14 @@ export const MENUITEMS = [
         selected: false,
         title: "DEX",
       },
+      {
+        path: "/optimism/NFT",
+        icon: "ion-image",
+        type: "link",
+        active: false,
+        selected: false,
+        title: "NFT",
+      },
       // { //TODO:
       //   title: "CryptoCurrencies",
       //   icon: "ti-wallet",

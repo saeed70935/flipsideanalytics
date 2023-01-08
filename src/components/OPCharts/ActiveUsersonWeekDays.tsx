@@ -43,7 +43,6 @@ export default function ActiveUsersOnWeekdays({ className, options, height, Curr
     // const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.ActiveUsersOnWeekDays, CurrentTimeSpan)
     const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.ActiveUsersOnWeekDays, CurrentTimeSpan));
     const ChartData = useChartData(0, Result.QueryResult, VerticalSettings);
-    console.log("ChartData", ChartData)
     return (
         <>
             {Result.Loading ? <SpinnerLoader height={height} className={className} /> :

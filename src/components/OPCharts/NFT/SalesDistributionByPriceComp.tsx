@@ -1,17 +1,15 @@
 import { ChartData, ChartOptions, CoreChartOptions, DatasetChartOptions, ElementChartOptions, PluginChartOptions, PolarAreaControllerChartOptions, ScaleChartOptions } from 'chart.js';
 import React, { useEffect, useState } from 'react';
-import { Pie, PolarArea } from 'react-chartjs-2';
-import { Queries } from '../../Queries/Queries';
-import { TimeSpanDataType } from '../../Queries/types';
-import { useChartData } from '../hoooks/useChartData';
-import { FlipsideResponse, useFlipside } from '../hoooks/useflipside';
-import { useQueryWithTimeSpan } from '../hoooks/useQueryWithTimeSpan';
-import { SpinnerLoader } from '../Spinners/SpinnerLoader';
+import { Queries } from '../../../Queries/Queries';
+import { TimeSpanDataType } from '../../../Queries/types';
+import { FlipsideResponse, useFlipside } from '../../hoooks/useflipside';
+import { useQueryWithTimeSpan } from '../../hoooks/useQueryWithTimeSpan';
+import { SpinnerLoader } from '../../Spinners/SpinnerLoader';
 import * as  R from 'ramda';
 import { v4 as uuidv4 } from 'uuid';
 import { _DeepPartialObject } from 'chart.js/types/utils';
 import ReactEcharts from 'echarts-for-react';
-import useQueryWithTimeSpan2 from '../hoooks/useQueryWithTimeSpan2';
+import useQueryWithTimeSpan2 from '../../hoooks/useQueryWithTimeSpan2';
 //@ts-ignore
 // export const Piechart = {
 //     unload: true,
@@ -30,28 +28,35 @@ interface Props {
 }
 const option = {
     backgroundColor: "transparent",
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
     legend: {
         // top: 'bottom',
-        
         bottom: 0,
+        show: false,
         textStyle: {
             color: "white"
         }
+    
     },
     series: [
         {
-            name: 'Nightingale Chart',
+            name: 'Sales Distribution',
             type: 'pie',
-            radius: [30, 95],
+            radius: [20, 80],
             center: ['50%', '50%'],
-            roseType: 'area',
-            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997", "#f1388b"],
+            roseType: 'markArea',
+            height:"270",
+            // roseType: 'area',
+            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997","#f1388b"],
             label: {
-                color: "white"
+                // color: "white"
             },
             itemStyle: {
-                borderRadius: 8,
-               
+                borderRadius: 2,
+
 
             },
             data: [
@@ -67,9 +72,9 @@ const option = {
         }
     ]
 };
-export default function DistributionProtocols ({ className, options, height, CurrentTimeSpan }: Props) {
-    const ModifiedQuery = useQueryWithTimeSpan(Queries.OverView.TransactionsType, CurrentTimeSpan )
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.OverView.TransactionsType, CurrentTimeSpan));
+export default function SalesDistributionByPriceComp({ className, options, height, CurrentTimeSpan }: Props) {
+    // const ModifiedQuery = useQueryWithTimeSpan(Queries.NFT.SalesDistributionByPrice, CurrentTimeSpan)
+    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.SalesDistributionByPrice, CurrentTimeSpan));
     const [PiID, setPIEID] = useState<string>(uuidv4())
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     const [DataIsReady, setDataIsReady] = useState(false);
@@ -79,8 +84,8 @@ export default function DistributionProtocols ({ className, options, height, Cur
 
         if (Result.Success && Result.QueryRows.length > 0) {
             let Temp = R.clone(option);
-            let TempData: { value: number; name:string }[] =[]
-            Result.QueryRows.map((item,index)=>{
+            let TempData: { value: number; name: string }[] = []
+            Result.QueryRows.map((item, index) => {
                 //@ts-ignore
                 TempData.push({ name: item[0], value: item[1] })
             })
@@ -102,10 +107,10 @@ export default function DistributionProtocols ({ className, options, height, Cur
                 //     // columns={PolarChart.pie}
                 //     />
                 // </div>
-                <div className="ht-300">
-                    <ReactEcharts theme="dark" lazyUpdate className="chartsh" option={PolarChart} 
-                //@ts-ignore
-                series={PolarChart.series} />
+                <div  >
+                    <ReactEcharts theme="dark" lazyUpdate className="chartsh" option={PolarChart}
+                        //@ts-ignore
+                        series={PolarChart.series} />
                 </div>
             }
         </>

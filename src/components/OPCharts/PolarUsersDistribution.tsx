@@ -27,6 +27,7 @@ const option = {
         {
             // name: 'Access From',
             type: 'pie',
+            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997", "#f1388b"],
             height:'250px',
             radius: ['50%', '80%'],
             avoidLabelOverlap: true,
@@ -34,7 +35,7 @@ const option = {
             itemStyle: {
                 borderRadius: 10,
                 borderColor: '#fff',
-                borderWidth: 2
+                borderWidth: 1.5
             },
             label: {
                 show: false,
