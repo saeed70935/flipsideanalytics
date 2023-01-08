@@ -42,7 +42,7 @@ const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Pro
       </div>
       
       <div className="d-flex   ">
-        <h5 className='p-1 mt-1 '>TimeSpan :</h5>
+        <h5 className='p-1 mt-1 '>Interval :</h5>
         <div className="justify-content-center">
           
           <Dropdown  >
