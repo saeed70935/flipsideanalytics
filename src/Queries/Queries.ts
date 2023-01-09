@@ -620,7 +620,7 @@ with ETH_price as (
   avg(price) ETHprice 
   from ethereum.core.fact_hourly_token_prices
   where SYMBOL = 'WETH'
-  and date_trunc(day,HOUR )::date >= CURRENT_DATE - ${TimeSpan}
+ and  date_trunc(day,HOUR )::date >= CURRENT_DATE -${TimeSpan}
   group by 1 
 ),
 prices as (
@@ -630,7 +630,7 @@ prices as (
   avg(price) Token_price 
   from ethereum.core.fact_hourly_token_prices
   where SYMBOL not in ( 'WETH' , 'ETH' , 'stETH' )
-  and date_trunc(day,HOUR )::date >= CURRENT_DATE - ${TimeSpan}
+   and date_trunc(day,HOUR )::date >= CURRENT_DATE - ${TimeSpan}
   group by 1,2 ,3 
 ),
 prices_peer_eth as (
@@ -650,19 +650,16 @@ sales as (
   BUYER_ADDRESS , 
   SELLER_ADDRESS 
   from ethereum.core.ez_nft_sales join prices_peer_eth on BLOCK_TIMESTAMP ::date = date and TOKEN_ADDRESS = CURRENCY_ADDRESS 
-  -- where PRICE is not NULL
-  WHERE price_usd is not NULL 
+  where PRICE is not NULL
   and BLOCK_TIMESTAMP ::date >= CURRENT_DATE - ${TimeSpan}
 )
-select CASE WHEN price_usd < 1 THEN 'Less Than $1'
-WHEN price_usd BETWEEN 1 and   10 THEN '$1 - $10'
-WHEN price_usd BETWEEN 10 and   50 THEN '$10 - $50'
-  WHEN price_usd BETWEEN 50 and   100 THEN '$50 - $100'
-  WHEN price_usd BETWEEN 100 and   250 THEN '$100 - $250'
-  WHEN price_usd BETWEEN 250 and   500 THEN '$250 - $500'
-  WHEN price_usd BETWEEN 500 and   1000 THEN '$500 - $1K'
-  WHEN price_usd BETWEEN 500 and   1000 THEN '$1K - $2K'
-else  'More Than $2K' 
+select CASE WHEN price_ETH < 0.01 THEN 'Less Than 0.01 $ETH'
+WHEN price_ETH BETWEEN 0.01 and   0.1 THEN '0.01 - 0.1 $ETH'
+WHEN price_ETH BETWEEN 0.1 and  0.5 THEN '0.1 - 0.5 $ETH'
+WHEN price_ETH BETWEEN 0.5 and  1 THEN '0.5 - 1 $ETH'
+WHEN price_ETH BETWEEN 1 and  2 THEN '1 - 2 $ETH'
+WHEN price_ETH BETWEEN 2 and  3 THEN '2 - 3 $ETH'
+else  'More Than 3 $ETH' 
 end  range, 
 count (DISTINCT SELLER_ADDRESS ) num_sellers 
 from sales

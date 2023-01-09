@@ -43,7 +43,7 @@ const option = {
     },
     series: [
         {
-            name: 'Sales Distribution',
+            name: 'Sellers Distribution',
             type: 'pie',
             radius: [40, 80],
             center: ['50%', '50%'],
