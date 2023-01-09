@@ -8,6 +8,7 @@ import Rightside from "../right-sidebar/right-sidebar";
 import TabToTop from "../tab-to-top/tab-to-top";
 import { useRouter } from "next/router";
 import Header from "../header/header";
+import favicon from "../../../public/assets/img/brand/favicon.ico"
 const Switcher = dynamic(() => import("../switcher/switcher"), { ssr: false });
 const Sidebar = dynamic(() => import("../sidebar/sidebarOptimism"), { ssr: false });
 
@@ -127,6 +128,18 @@ const Contentlayout = ({ children }) => {
       {/* <Head>
         <body className="ltr main-body leftmenu"></body>
         </Head> */}
+        <Head>
+        <title>Optimism</title>
+        <meta name="description" content="Optimism" />
+        <link rel="icon" href={favicon.src} />
+        <meta property="og:title" content="Optimism Dashboard" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://optimism.bisedanl.xyz/" />
+        <meta property="og:image" content="https://optimism.bisedanl.xyz/assets/img/meta.jpg" />
+        <meta property="og:description" content="Optimism Mega Dashboard" />
+        <meta name="theme-color" content="#9877f9"/>
+        <meta name="twitter:card" content="summary_large_image"></meta>
+      </Head>
       <Provider store={store}>
         <div className="horizontalMenucontainer">
           <div className="page">
