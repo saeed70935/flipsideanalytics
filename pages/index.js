@@ -53,6 +53,13 @@ const Home = ()=>{
         <title>Optimism</title>
         <meta name="description" content="Optimism" />
         <link rel="icon" href={favicon.src} />
+        <meta property="og:title" content="Optimism Dashboard" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://optimism.bisedanl.xyz/" />
+        <meta property="og:image" content="hhttps://optimism.bisedanl.xyz/assets/img/meta.jpg" />
+        <meta property="og:description" content="Optimism Mega Dashboard" />
+        <meta name="theme-color" content="#9877f9"/>
+        <meta name="twitter:card" content="summary_large_image"></meta>
       </Head>
       {/* <div className="page main-signin-wrapper" */}
     
