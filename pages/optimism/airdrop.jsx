@@ -395,8 +395,8 @@ const Dashboard = () => {
 			</div>
 	
         					<div className="card crypto-card custom-card card-dashboard-calendar pb-4 ">
-								<label className="main-content-label mb-1 pt-1">NFT Sellers ( by price in ETH )</label>
-								<span className="d-block tx-12 mb-2 text-muted">The Distribution of NFT Sellers based on NFT price in ETH in the {CurrentTimeSpan}</span>
+								<label className="main-content-label mb-1 pt-1">Airdrop holding Distribution</label>
+								<span className="d-block tx-12 mb-2 text-muted">The distribution of wallets based on holding $OP amount from airdrop</span>
                  					<div className='ht-300 '>
 										<DisAirdropHoldersComp CurrentTimeSpan={CurrentTimeSpan} />
 									</div>
