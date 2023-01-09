@@ -26,6 +26,14 @@ export const MENUITEMS = [
         selected: false,
         title: "NFT",
       },
+      {
+        path: "/optimism/airdrop",
+        icon: "mdi mdi-airballoon",
+        type: "link",
+        active: false,
+        selected: false,
+        title: "OP AIRDROP",
+      },
       // { //TODO:
       //   title: "CryptoCurrencies",
       //   icon: "ti-wallet",

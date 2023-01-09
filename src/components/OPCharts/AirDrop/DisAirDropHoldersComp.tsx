@@ -72,8 +72,8 @@ const option = {
         }
     ]
 };
-export default function DisNFTSELLERSbypriceinETHcomp({ className, options, height, CurrentTimeSpan }: Props) {
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DisSellersbypriceinETH, CurrentTimeSpan));
+export default function DisAirdropHoldersComp({ className, options, height, CurrentTimeSpan }: Props) {
+    const Result: FlipsideResponse = useFlipside(Queries.AirDrop.DisAirDropHolders);
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     useEffect(() => {
 

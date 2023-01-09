@@ -45,20 +45,20 @@ const option = {
         {
             name: 'Sales Distribution',
             type: 'pie',
-            radius: [40, 80],
+            radius: [50, 80],
             center: ['50%', '50%'],
             // roseType: 'markArea',
-            // height:"270",
+            height:"270",
             // roseType: 'area',
-            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997", "#f1388b", "#28a745"],
+            color: ["#9877f9", "#53caed", 'rgb(255, 99, 132)', "#fd7e14", "#28a745", "#20c997","#f1388b"],
             label: {
                 // color: "white"
             },
-            // itemStyle: {
-            //     borderRadius: 2,
+            itemStyle: {
+                borderRadius: 2,
 
 
-            // },
+            },
             data: [
                 { value: 40, name: 'rose 1' },
                 { value: 38, name: 'rose 2' },
@@ -72,8 +72,8 @@ const option = {
         }
     ]
 };
-export default function DisNFTSELLERSbypriceinETHcomp({ className, options, height, CurrentTimeSpan }: Props) {
-    const Result: FlipsideResponse = useFlipside(useQueryWithTimeSpan2(Queries.NFT.DisSellersbypriceinETH, CurrentTimeSpan));
+export default function AirDropDistributionComp({ className, options, height, CurrentTimeSpan }: Props) {
+    const Result: FlipsideResponse = useFlipside(Queries.AirDrop.AirDropDistribution);
     const [PolarChart, setPolarChart] = useState<typeof option>(option)
     useEffect(() => {
 
@@ -92,10 +92,10 @@ export default function DisNFTSELLERSbypriceinETHcomp({ className, options, heig
     return (
         <>
             {Result.Loading ? <SpinnerLoader height={height} className={className} /> :
-                <div className={className}  >
+                <div  >
                     <ReactEcharts theme="dark" lazyUpdate className="chartsh" option={PolarChart}
                         //@ts-ignore
-                        series={PolarChart.series} height={height}/>
+                        series={PolarChart.series} />
                 </div>
             }
         </>

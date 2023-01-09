@@ -669,5 +669,126 @@ from sales
 group by 1 order by num_sellers desc 
 `
 },
+AirDrop:{
+  Total :`
+  select 
+  sum (raw_amount/1e18) claimed_amount,
+  214748364::numeric as total_amount,
+  count (DISTINCT tx_hash) num_claims,
+  count (DISTINCT ORIGIN_FROM_ADDRESS ) num_wallets,
+  avg(raw_amount/1e18) avg_claimed,
+  round(max(raw_amount/1e18)) max_claimed,
+  min(raw_amount/1e18) min_claimed,
+  median(raw_amount/1e18) median_claimed 
+from optimism.core.fact_token_transfers 
+  where ORIGIN_FUNCTION_SIGNATURE ='0x2e7ba6ef'
+and from_address = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+and ORIGIN_TO_ADDRESS = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+  `,
+  claimedOverTime :`
+  select 
+  date_trunc(week,block_timestamp)::date date , 
+  sum (raw_amount/1e18) claimed_amount,
+  count (DISTINCT tx_hash) num_claims,
+  count (DISTINCT ORIGIN_FROM_ADDRESS ) num_wallets,
+  sum (claimed_amount) over (order by date) cum_claimed_amount,
+  sum(num_claims) over (order by date) cum_claims 
+from optimism.core.fact_token_transfers 
+  where ORIGIN_FUNCTION_SIGNATURE ='0x2e7ba6ef'
+and from_address = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+and ORIGIN_TO_ADDRESS = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+group by 1 order by date 
+
+  `,
+  AirDropDistribution :`
+  with claimed as (select 
+  ORIGIN_FROM_ADDRESS wallet ,
+  sum(raw_amount/1e18) as claimed_amount
+from optimism.core.fact_token_transfers 
+  where ORIGIN_FUNCTION_SIGNATURE ='0x2e7ba6ef'
+and from_address = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+and ORIGIN_TO_ADDRESS = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+  group by 1 
+  )
+select case when claimed_amount < 100 then 'Less Than 100 $OP'
+when claimed_amount BETWEEN 100 and 500 then '100 - 500 $OP'
+when claimed_amount BETWEEN 500 and 1000 then '500 - 1K $OP'
+when claimed_amount BETWEEN 1000 and 3000 then '1K - 3K $OP'
+when claimed_amount BETWEEN 3000 and 5000 then '3K - 5K $OP'
+  when claimed_amount BETWEEN 5000 and 10000 then '5K - 10K $OP'
+  when claimed_amount BETWEEN 10000 and 50000 then '10K - 50K $OP'
+else 'More Than 50K OP' end  range,
+count (distinct wallet) num_wallets
+from claimed
+group by 1 order by num_wallets desc`,
+TopDestinations :`
+with claim as (
+select 
+  ORIGIN_FROM_ADDRESS ,
+  block_timestamp claim_date 
+from optimism.core.fact_token_transfers 
+  where ORIGIN_FUNCTION_SIGNATURE ='0x2e7ba6ef'
+and from_address = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+and ORIGIN_TO_ADDRESS = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+)
+
+SELECT 
+CASE WHEN ORIGIN_TO_ADDRESS = '0xdef1abe32c034e558cdd535791643c58a13acc10' then '0x decentralized exchange'
+WHEN ORIGIN_TO_ADDRESS = '0xc78a09d6a4badecc7614a339fd264b7290361ef1' then 'Quixotic Seaport'
+WHEN ORIGIN_TO_ADDRESS = '0x1111111254760f7ab3f16433eea9304126dcd199' then '1inch Exchange'
+WHEN ORIGIN_TO_ADDRESS = '0x5130f6ce257b8f9bf7fac0a0b519bd588120ed40' then 'Clipper' 
+WHEN ORIGIN_TO_ADDRESS in ('0x9c12939390052919af3155f41bf4160fd3666a6f','0xa132dab612db5cb9fc9ac426a0cc215a3423f9c9') then 'Velodrome Swap Router'
+else initcap(address_name) 
+end  DESTINATION,
+count (DISTINCT ORIGIN_FROM_ADDRESS)  num_wallets 
+from optimism.core.fact_event_logs  join claim  using (ORIGIN_FROM_ADDRESS)
+full outer join optimism.core.dim_labels  on origin_to_address = address
+where contract_address = '0x4200000000000000000000000000000000000042' 
+and BLOCK_TIMESTAMP > claim_date
+group by 1 having DESTINATION is not NULL  order by num_wallets DESC limit 5
+`,
+DisAirDropHolders :`
+with claimed as (select 
+  ORIGIN_FROM_ADDRESS wallet , 
+  block_timestamp claimed_date,
+  (raw_amount/1e18) as claimed_amount
+from optimism.core.fact_token_transfers 
+  where ORIGIN_FUNCTION_SIGNATURE ='0x2e7ba6ef'
+and from_address = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+and ORIGIN_TO_ADDRESS = '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+  ),
+transfers as (
+select ORIGIN_FROM_ADDRESS as saler ,
+SUM ((zeroifnull(raw_amount))/1e18) transferred_amount
+from optimism.core.fact_token_transfers   join claimed on ORIGIN_FROM_ADDRESS = wallet 
+where contract_address = '0x4200000000000000000000000000000000000042'
+and block_timestamp > claimed_date
+and ORIGIN_TO_ADDRESS <> '0xfedfaf1a10335448b7fa0268f56d2b44dbd357de'
+  group by 1 
+)
+
+  ,
+non_holders as (select 
+  case when   transferred_amount - (claimed_amount*0.01) < claimed_amount /2 then 'holds more than 50%'
+when transferred_amount - (claimed_amount*0.01) > claimed_amount /2 and 
+  transferred_amount < (claimed_amount)
+  then 'holds less than 50%'
+  when transferred_amount  >= claimed_amount then 'non holder'
+  end as type , 
+  count (DISTINCT saler ) num_wallets 
+  from transfers join claimed on wallet = saler 
+  group by 1 order by  num_wallets desc
+  ),
+  fully_holers as (
+  select count (DISTINCT wallet ) num_fully_holders 
+  from   claimed 
+  where wallet not in (select saler from transfers )
+  order by num_fully_holders desc
+  )
+select type , num_wallets from non_holders 
+UNION
+select 'fully Airdrop holded' as type , num_fully_holders num_wallets from fully_holers 
+`
+}
 
 }

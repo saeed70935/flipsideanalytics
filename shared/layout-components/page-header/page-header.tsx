@@ -7,13 +7,14 @@ interface Props {
   setCurrentTimeSpan: (SelectedTimespan: TimeSpanDataType)=>void;
   CurrentTimeSpan: TimeSpanDataType;
   subtitle?:string;
+  DisableInterval?:boolean
 }
 
 const DropDownTimeData: TimeSpanDataType[] = ["Last 7 days","Last 30 days", 'Last 3 months', 'Last 6 months', 'Last one year']
 interface DropDownTimeItemProps{
   onSelectTimeSpan: (SelectedTimespan: TimeSpanDataType)=>void;
 }
-function DropDownTimeItemsComp({onSelectTimeSpan }: DropDownTimeItemProps){
+function DropDownTimeItemsComp({ onSelectTimeSpan,  }: DropDownTimeItemProps){
   return(
     <>
     {
@@ -26,7 +27,7 @@ function DropDownTimeItemsComp({onSelectTimeSpan }: DropDownTimeItemProps){
     </>
   )
 }
-const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Props) => {
+const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan, subtitle, DisableInterval=false  }:Props) => {
   // const [SelectedTimeSpan, setSelectedTimeSpan] = useState<DropDownTimeSpanData>("Last 30 days")
   // useCallback(() => { 
   //   setCurrentTimeSpan(SelectedTimeSpan)
@@ -41,7 +42,7 @@ const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Pro
         </ol> :<></>}
       </div>
       
-      <div className="d-flex   ">
+      {!DisableInterval ? <div className="d-flex   ">
         <h5 className='p-1 mt-1 '>Interval :</h5>
         <div className="justify-content-center">
           
@@ -52,7 +53,7 @@ const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Pro
             </Dropdown.Toggle>
             <Dropdown.Menu className=" tx-13" style={{ marginTop: "0px" }}>
             <h6 className="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
-            Choose TimeSpan
+            Choose Interval
             </h6>
               <DropDownTimeItemsComp onSelectTimeSpan={(data) => setCurrentTimeSpan(data)}  />
             {/* <Dropdown.Item onClick={()=>console.log("ss")} href="#">Action</Dropdown.Item>
@@ -70,9 +71,11 @@ const PageHeader = ({ title, setCurrentTimeSpan, CurrentTimeSpan ,subtitle }:Pro
             <i className="fe fe-download-cloud me-2"></i> Download Report
           </button> */}
         </div>
-      </div>
+      </div>:<></>}
     </div>
   )
 }
-
+// PageHeader.defaultProps = {
+//   DisableInterval:true
+// }
 export default PageHeader
