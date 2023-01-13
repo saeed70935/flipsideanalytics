@@ -786,6 +786,159 @@ select type , num_wallets from non_holders
 UNION
 select 'fully Airdrop holded' as type , num_fully_holders num_wallets from fully_holers 
 `
+},
+Bridge : {
+  Total :`with num_bridges_eth as (
+  select  
+  case when ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' then 'Eth -> Opt'
+  when ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' then 'Opt -> Eth'
+  end as bridge_type ,
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ETH_FROM_ADDRESS ) num_wallets_,
+  sum (AMOUNT_USD) volume_usd 
+  from ethereum.core.ez_eth_transfers 
+  where block_timestamp >= CURRENT_DATE - ${TimeSpan}
+  group by 1 having bridge_type is not NULL
+),
+ num_bridges_other as (
+  select  
+  case when ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' then 'Eth -> Opt'
+  when ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' then 'Opt -> Eth'
+  end as bridge_type ,
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ORIGIN_FROM_ADDRESS ) num_wallets_ ,
+  sum (AMOUNT_USD) volume_usd 
+  from ethereum.core.ez_token_transfers
+   where block_timestamp >= CURRENT_DATE - ${TimeSpan}
+  group by 1 having bridge_type is not NULL
+),
+all_ as (
+  select * from num_bridges_eth 
+  UNION
+  select * from num_bridges_other
+)
+select  bridge_type , sum (num_bridges_) num_bridges , sum (num_wallets_) num_wallets  , sum(volume_usd) volume_usd
+from all_ 
+group by 1
+`,
+NumBeridgesOverTime:`with num_bridges_eth as (
+  select  BLOCK_TIMESTAMP :: date weekly ,
+  case when ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' then 'Ethereum to Optimistm'
+  when ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' then 'Optimism to Ethereum'
+  end as bridge_type ,
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ETH_FROM_ADDRESS ) num_wallets_
+  from ethereum.core.ez_eth_transfers 
+  where block_timestamp::date  >= CURRENT_DATE - ${TimeSpan}
+  group by 1,2 having bridge_type is not NULL
+),
+ num_bridges_other as (
+  select  BLOCK_TIMESTAMP :: date weekly ,
+  case when ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' then 'Ethereum to Optimistm'
+  when ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' then 'Optimism to Ethereum'
+  end as bridge_type ,
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ORIGIN_FROM_ADDRESS ) num_wallets_ 
+  from ethereum.core.ez_token_transfers
+   where block_timestamp::date >= CURRENT_DATE - ${TimeSpan}
+  group by 1,2 having bridge_type is not NULL
+),
+all_ as (
+  select * from num_bridges_eth 
+  UNION
+  select * from num_bridges_other
+)
+select weekly , bridge_type , sum (num_bridges_) num_bridges , sum (num_wallets_) num_wallets , 
+sum (num_bridges) over (partition by bridge_type order by weekly  ) cum_bridges
+from all_ 
+group by 1,2 order by weekly
+`,
+BridgedETHVolume:`with E_to_O_ETH as (
+  select  
+  'ETH -> OPT' type , 
+  case when amount BETWEEN 0 and 0.5 then '0 - 0.5 ETH'
+  when amount BETWEEN 0.5 and 1 then '0.5 - 1 ETH'
+  when amount BETWEEN 1 and 2 then '1 - 2 ETH'
+  when amount BETWEEN 2 and 5 then '2 - 5 ETH'
+  when amount BETWEEN 5 and 10 then '5 - 10 ETH'
+  when amount BETWEEN 10 and 20 then '10 - 20 ETH'
+  when amount BETWEEN 20 and 50 then '20 - 50 ETH'
+  when amount BETWEEN 50 and 100 then '100 - 500 ETH'
+  else 'more than 500 ETH' 
+  end as range , 
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ETH_FROM_ADDRESS ) num_wallets_
+  from ethereum.core.ez_eth_transfers 
+  where ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' --Ethereum to Optimistm
+  and block_timestamp >= CURRENT_DATE - ${TimeSpan}
+  group by 1,2 
+  ),
+O_to_E_ETH as (
+  select  
+   'OPT -> ETH' type , 
+  case when amount BETWEEN 0 and 0.5 then '0 - 0.5 ETH'
+  when amount BETWEEN 0.5 and 1 then '0.5 - 1 ETH'
+  when amount BETWEEN 1 and 2 then '1 - 2 ETH'
+  when amount BETWEEN 2 and 5 then '2 - 5 ETH'
+  when amount BETWEEN 5 and 10 then '5 - 10 ETH'
+  when amount BETWEEN 10 and 20 then '10 - 20 ETH'
+  when amount BETWEEN 20 and 50 then '20 - 50 ETH'
+  when amount BETWEEN 50 and 100 then '100 - 500 ETH'
+  else 'more than 500 ETH' 
+  end as range , 
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT ETH_FROM_ADDRESS ) num_wallets_
+  from ethereum.core.ez_eth_transfers 
+  where ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' -- Optimistm to Ethereum 
+  and block_timestamp >= CURRENT_DATE - ${TimeSpan}
+  group by 1,2
+)
+select  type, range , num_bridges_ , num_wallets_ from O_to_E_ETH 
+UNION 
+select type,range , num_bridges_ , num_wallets_ from E_to_O_ETH `,
+BridgedUSDC :`with E_to_O_USDC as (
+  select 'ETH -> OPT' type,
+  case when amount < 10then 'less than $10'
+  when amount BETWEEN 10 and 100 then '$10 - $100'
+  when amount BETWEEN 100 and 500 then '$100 - $500'
+  when amount BETWEEN 500 and 1000 then '$500 - $1K'
+  when amount BETWEEN 1000 and 5000 then '$1K - $5K'
+  when amount BETWEEN 5000 and 10000 then '$5K - $10K'
+  when amount BETWEEN 10000 and 20000 then '$10K - $20K'
+  when amount BETWEEN 20000 and 100000 then '$20K - $100K'
+  else 'more than $100K' 
+  end as range , 
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT origin_FROM_ADDRESS ) num_wallets_
+ from ethereum.core.ez_token_transfers
+  where SYMBOL = 'USDC'  
+  and ORIGIN_TO_ADDRESS ='0x99c9fc46f92e8a1c0dec1b1747d010903e884be1' --Ethereum to Optimistm
+    and block_timestamp >= CURRENT_DATE -  ${TimeSpan}
+  group by 1,2
+  ),
+O_to_E_USDC as (
+  select  'OPT -> ETH' type,
+  case when amount < 10then 'less than $10'
+  when amount BETWEEN 10 and 100 then '$10 - $100'
+  when amount BETWEEN 100 and 500 then '$100 - $500'
+  when amount BETWEEN 500 and 1000 then '$500 - $1K'
+  when amount BETWEEN 1000 and 5000 then '$1K - $5K'
+  when amount BETWEEN 5000 and 10000 then '$5K - $10K'
+  when amount BETWEEN 10000 and 20000 then '$10K - $20K'
+  when amount BETWEEN 20000 and 100000 then '$20K - $100K'
+  else 'more than $100K' 
+  end as range , 
+  count (DISTINCT tx_hash) num_bridges_ ,
+  count (DISTINCT origin_FROM_ADDRESS ) num_wallets_
+  from ethereum.core.ez_token_transfers
+  where SYMBOL = 'USDC' 
+  and block_timestamp >= CURRENT_DATE -  ${TimeSpan}
+  AND ORIGIN_TO_ADDRESS = '0x25ace71c97b33cc4729cf772ae268934f7ab5fa1' -- Optimistm to Ethereum  
+  group by 1,2
+)
+select * from E_to_O_USDC
+UNION
+select * from O_to_E_USDC`
 }
 
 }

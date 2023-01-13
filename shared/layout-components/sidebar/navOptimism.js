@@ -26,6 +26,14 @@ export const MENUITEMS = [
         selected: false,
         title: "NFT",
       },
+       {
+        path: "/optimism/bridge",
+        icon: "mdi mdi-bridge",
+        type: "link",
+        active: false,
+        selected: false,
+        title: "Bridge",
+      },
       {
         path: "/optimism/airdrop",
         icon: "mdi mdi-airballoon",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlipsideQueryResult } from './useflipside';
 import * as R from 'ramda';
 export interface GroupedVerticalChartItem {
@@ -32,15 +32,17 @@ export interface VerticalSettings {
     
 // }
 export type HorizontalItemData = string | number | boolean | null;
-export function useGroupedChartData(horizontalIndex: number, VerticalIndex: number, GroupedIndex: number, Data: FlipsideQueryResult[], verticalSettings: GroupedVerticalChartItem[]){
+export function useGroupedChartData(horizontalIndex: number, VerticalIndex: number, GroupedIndex: number, Data: FlipsideQueryResult[], verticalSettings: GroupedVerticalChartItem[]=[],QueryResultSuccess:boolean=true){
     const [VerticalData, setVerticalData] = useState<GroupedVerticalChartItem[]>([])
     const [HorizontalData, setHorizontalData] = useState<HorizontalItemData[]>([])
     useEffect(()=>{
         let tempVertical: GroupedVerticalChartItem[] = [];
         let tempHorizontal: HorizontalItemData[] = [];
         let groupddata:{label:string,value:number[]}[]=[];
-        if (Data && Data.length>0  ){
-            Data[GroupedIndex].value && Data[GroupedIndex].value.map((item,index)=>{
+    
+        if (QueryResultSuccess && Data && Data.length>0  ){
+            let TempData: FlipsideQueryResult[] = R.clone(Data)
+            TempData[GroupedIndex].value && TempData[GroupedIndex].value.map((item,index)=>{
             let existed= false;
             groupddata.map((grouped)=>{
                 if (grouped.label === item){
@@ -52,8 +54,8 @@ export function useGroupedChartData(horizontalIndex: number, VerticalIndex: numb
                 groupddata.push({ label: item, value :[]})
              }
          });
-            Data[GroupedIndex].value && Data[GroupedIndex].value.map((item, index) => {
-                Data[VerticalIndex].value.map((verticalitem,verticalIndexItem)=>{
+            TempData[GroupedIndex].value && TempData[GroupedIndex].value.map((item, index) => {
+                TempData[VerticalIndex].value.map((verticalitem,verticalIndexItem)=>{
                     groupddata.map((groupditem,groupedindex)=>{
                         if (item === groupditem.label ){
                             if (verticalIndexItem === index){
@@ -64,18 +66,21 @@ export function useGroupedChartData(horizontalIndex: number, VerticalIndex: numb
                     })
                 })
             })
-            Data[horizontalIndex].value && Data[horizontalIndex].value.map(item=>{
+            TempData[horizontalIndex].value && TempData[horizontalIndex].value.map(item=>{
                 if (!tempHorizontal.includes(item)){
                     tempHorizontal.push(item)
                 }
             })
         }
         groupddata.map((item,index)=>{
-            tempVertical.push({ ...verticalSettings[index] , label:item.label,data:item.value })
+            if (verticalSettings.length>0)
+                tempVertical.push({ ...verticalSettings[index] , label:item.label,data:item.value })
+                //@ts-ignore
+            else tempVertical.push({  label: item.label, data: item.value })
         })
         setVerticalData(R.clone(tempVertical));
         setHorizontalData(R.clone(tempHorizontal))
         
-    }, [Data, verticalSettings, horizontalIndex, GroupedIndex])
+    }, [Data, verticalSettings, horizontalIndex, GroupedIndex, VerticalIndex,QueryResultSuccess])
     return { horizontal: HorizontalData, vertical: VerticalData }
 }
